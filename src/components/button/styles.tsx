@@ -4,21 +4,29 @@ import { height, width } from "~utils/dimensions";
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: width(10),
-    paddingVertical: height(1.3),
+    borderRadius: width(4),
+    paddingVertical: height(2),
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    paddingHorizontal: width(20),
+    width: width(85),
   },
   primaryContainer: {
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.fullBlack,
+    color: AppColors.white,
   },
   secondaryContainer: {
+    backgroundColor: AppColors.grey,
+  },
+  greenContainer: {
+    backgroundColor: AppColors.green,
+  },
+  blackContainer: {
     backgroundColor: AppColors.primary,
   },
   disableContainer: {
     backgroundColor: AppColors.wihte5,
+    color: AppColors.fullBlack,
   },
   shadow: {
     shadowColor: "#000",

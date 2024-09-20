@@ -39,7 +39,7 @@ const DropDownMenu: FC<DropDownMenuProps> = ({
             style={styles.button}
             onPress={onPressFirstBtn}
           >
-            <SmallText>{firstBtnText}</SmallText>
+            <SmallText textStyles={styles.btnText}>{firstBtnText}</SmallText>
           </TouchableOpacity>
 
           <View style={styles.line} />
@@ -48,7 +48,7 @@ const DropDownMenu: FC<DropDownMenuProps> = ({
             style={styles.button}
             onPress={onPressSecondBtn}
           >
-            <SmallText>{secondBtnText}</SmallText>
+            <SmallText textStyles={styles.btnText}>{secondBtnText}</SmallText>
           </TouchableOpacity>
 
           {thirdText !== "" && (
@@ -69,7 +69,7 @@ const DropDownMenu: FC<DropDownMenuProps> = ({
           style={styles.cancelBtn}
           onPress={onClose}
         >
-          <SmallText>Cancel</SmallText>
+          <SmallText textStyles={styles.btnText}>Cancel</SmallText>
         </TouchableOpacity>
       </View>
     </Modal>

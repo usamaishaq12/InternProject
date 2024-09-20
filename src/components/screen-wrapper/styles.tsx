@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
-import { height } from '~utils/dimensions';
- const styles = StyleSheet.create({
+import { StyleSheet } from "react-native";
+import { height } from "~utils/dimensions";
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -8,7 +8,7 @@ import { height } from '~utils/dimensions';
     flex: 1,
   },
   contentContainer: {
-    paddingVertical: height(2),
+    // paddingVertical: height(2),
   },
 });
 export default styles;

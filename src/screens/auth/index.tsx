@@ -1,1 +1,14 @@
-export {default as LoginScreen} from './login'
+export { default as LoginScreen } from "./login";
+export { default as GettingStarted } from "./getting-started";
+export { default as GettingLogin } from "./getting-login";
+export { default as ResetPassword } from "./reset-password";
+export { default as PrivacyPolicy } from "./privacy-policy";
+export { default as TermsAndConditions } from "./Terms-and-conditions";
+export { default as CompleteProfile } from "./complete-profile";
+export { default as VerificationCode } from "./verification-code";
+export { default as UploadPictures } from "./upload-pictures";
+export { default as LocationScreen } from "./location-screen";
+export { default as IdentityVerification } from "./identity-verification";
+export { default as ServiceAreas } from "./service-areas";
+export { default as SelectRadius } from "./select-radius";
+export { default as PdfForm } from "./pdf-form";

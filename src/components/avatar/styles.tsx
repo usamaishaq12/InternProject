@@ -1,6 +1,6 @@
-import { StyleSheet, ViewStyle } from 'react-native';
-import { AppColors } from '~utils';
-import { width, height } from '~utils/dimensions';
+import { StyleSheet, ViewStyle } from "react-native";
+import { AppColors } from "~utils";
+import { width, height } from "~utils/dimensions";
 
 interface AvatarStyles {
   container: ViewStyle;
@@ -11,8 +11,8 @@ interface AvatarStyles {
 
 const styles = StyleSheet.create<AvatarStyles>({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: width(100),
     borderColor: AppColors.white,
     backgroundColor: AppColors.snowWhite,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create<AvatarStyles>({
     borderColor: AppColors.primary,
   },
   editButton: {
-    position: 'absolute',
+    position: "absolute",
     right: width(10),
     top: height(5),
   },

@@ -4,6 +4,7 @@ import { DropDownMenu } from "~components";
 
 interface FilePickerModalProps {
   onFilesSelected: (images: Image[]) => void;
+  allowMultiple?: boolean;
 }
 
 export interface FilePickerModalRef {
@@ -15,7 +16,7 @@ export interface FilePickerModalRef {
 export const FilePickerModal: React.ForwardRefRenderFunction<
   FilePickerModalRef,
   FilePickerModalProps
-> = ({ onFilesSelected }, ref) => {
+> = ({ onFilesSelected, allowMultiple = false }, ref) => {
   const [isVisible, setVisible] = useState(false);
 
   useImperativeHandle(ref, () => ({
@@ -46,6 +47,7 @@ export const FilePickerModal: React.ForwardRefRenderFunction<
     ImagePicker.openPicker({
       cropping: true,
       mediaType: "photo",
+      multiple: allowMultiple,
       compressImageQuality: 0.1,
       height: 400,
       width: 400,
@@ -64,7 +66,6 @@ export const FilePickerModal: React.ForwardRefRenderFunction<
       secondBtnText="Choose from Library"
       onPressFirstBtn={() => openPicker(0)}
       onPressSecondBtn={() => openPicker(1)}
-      onPressThirdBtn={() => openPicker(2)}
       onClose={() => setVisible(false)}
     />
   );

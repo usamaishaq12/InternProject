@@ -1,9 +1,9 @@
-import React from 'react';
-import Routes from './routes';
-import {Provider} from 'react-redux';
-import {store} from './redux/index';
-import FlashMessage from 'react-native-flash-message';
-import {LogBox} from 'react-native';
+import React from "react";
+import { Provider } from "react-redux";
+import { store } from "./redux/index";
+import FlashMessage from "react-native-flash-message";
+import { LogBox } from "react-native";
+import Routes from "~Routes";
 
 LogBox.ignoreAllLogs(true);
 export default function App() {

@@ -4,6 +4,7 @@ import {
   ImageBackground,
   SafeAreaView,
   StatusBar,
+  StatusBarStyle,
   View,
   ViewStyle,
 } from "react-native";
@@ -18,7 +19,7 @@ interface Props {
   statusBarColor?: string;
   transclucent?: boolean;
   scrollEnabled?: boolean;
-  barStyle?: string;
+  barStyle?: StatusBarStyle;
   imageBackgroundColor?: string;
   backgroundColor?: string;
   contentContainerStyle?: ViewStyle;
@@ -29,7 +30,7 @@ interface Props {
 }
 export default function ScreenWrapper({
   children,
-  statusBarColor = AppColors.white,
+  statusBarColor = AppColors.fullBlack,
   transclucent = false,
   scrollEnabled = false,
   backgroundImage,
@@ -39,7 +40,7 @@ export default function ScreenWrapper({
   footerUnScrollable = () => null,
   backgroundColor = AppColors.transparent,
   imageBackgroundColor = AppColors.black,
-  barStyle = "dark-content",
+  barStyle = "light-content",
 }: Props) {
   if (backgroundImage) {
     backgroundColor = AppColors.transparent;

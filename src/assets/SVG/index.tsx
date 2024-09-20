@@ -1,1 +1,9 @@
-export {default as EditPen} from './editPen';
+export { default as EditPen } from "./editPen";
+export { default as OpenEye } from "./openEye";
+export { default as BackArrow } from "./backArrow";
+export { default as TickCircle } from "./tickCircle";
+export { default as DropMenu } from "./dropMenu";
+export { default as CameraIcon } from "./cameraIcon";
+export { default as DeleteIcon } from "./deleteIcon";
+export { default as MapPin } from "./mapPin";
+export { default as DownArrow } from "./downArrow";

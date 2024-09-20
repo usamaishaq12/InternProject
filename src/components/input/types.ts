@@ -31,5 +31,4 @@ export interface InputProps {
   textAlignVertical?: "top" | "center" | "bottom";
   autoCapitalize?: autoCapitalizeProps;
   label: string;
-  
 }

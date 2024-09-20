@@ -8,23 +8,26 @@ import {
 import { SmallText } from "~components";
 import AppColors from "~utils/app-colors";
 import styles from "./styles";
+import { FontFamily } from "~assets";
 
 interface ButtonProps {
   onPress?: () => void;
   children?: ReactNode;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "green" | "black";
   withShadow?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
   touchableOpacityProps?: TouchableOpacityProps;
-  textStyle?: StyleProp<ViewStyle>;
+  textStyle?: any | StyleProp<ViewStyle>;
   textProps?: any;
   disabled?: boolean;
   buttonTextColor?: string;
+  onDonePressed?: () => void;
 }
 
 const Button: FC<ButtonProps> = ({
   onPress,
-  children=null, // Provide a default value here
+  onDonePressed,
+  children = null, // Provide a default value here
   variant = "primary",
   withShadow = false,
   containerStyle = {},
@@ -42,6 +45,10 @@ const Button: FC<ButtonProps> = ({
           ? styles.disableContainer
           : variant === "primary"
           ? styles.primaryContainer
+          : variant === "green"
+          ? styles.greenContainer
+          : variant === "black"
+          ? styles.blackContainer
           : styles.secondaryContainer),
         ...(withShadow && styles.shadow),
       },
@@ -56,7 +63,15 @@ const Button: FC<ButtonProps> = ({
       {...touchableOpacityProps}
     >
       <SmallText
-        color={disabled ? AppColors.black : buttonTextColor}
+        color={
+          disabled
+            ? AppColors.black
+            : variant === "green"
+            ? AppColors.black
+            : buttonTextColor
+        }
+        fontFamily={FontFamily.Roboto_Bold}
+        size={3.8}
         textStyles={textStyle}
         textProps={textProps}
       >

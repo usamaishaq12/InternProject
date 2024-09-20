@@ -1,5 +1,12 @@
 import React, { FC, ReactNode } from "react";
-import { Pressable, StyleSheet, Text, TextStyle } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextStyle,
+  ViewStyle,
+} from "react-native";
+import { FontFamily } from "~assets";
 import { AppColors } from "~utils";
 import { width } from "~utils/dimensions";
 
@@ -11,6 +18,8 @@ interface TextProps {
   textStyles?: any;
   textProps?: any; // You can replace `any` with specific Text component props
   onPress?: (() => void) | undefined;
+  fontFamily?: string;
+  containerStyles?: ViewStyle;
   textDecorationLine?:
     | "none"
     | "underline"
@@ -20,13 +29,15 @@ interface TextProps {
 
 const CustomText: FC<TextProps> = ({
   children,
-  size = 4.5,
+  size = 3.5,
   textAlign = "auto",
   color = AppColors.black,
   textStyles,
   textProps,
   onPress,
   textDecorationLine = "none",
+  fontFamily = FontFamily.Roboto_Regular,
+  containerStyles,
 }) => {
   const styles = StyleSheet.create({
     text: {
@@ -34,11 +45,12 @@ const CustomText: FC<TextProps> = ({
       color: color,
       textAlign: textAlign,
       textDecorationLine: textDecorationLine,
+      fontFamily: fontFamily,
     },
   });
 
   return (
-    <Pressable disabled={!onPress} onPress={onPress}>
+    <Pressable disabled={!onPress} onPress={onPress} style={containerStyles}>
       <Text style={[styles.text, textStyles]} {...textProps}>
         {children}
       </Text>
@@ -47,16 +59,16 @@ const CustomText: FC<TextProps> = ({
 };
 
 export const LargeText: FC<TextProps> = (props) => (
-  <CustomText {...props} size={6.5} />
+  <CustomText size={6.5} {...props} />
 );
 export const MediumText: FC<TextProps> = (props) => (
-  <CustomText {...props} size={4.5} />
+  <CustomText size={4.5} {...props} />
 );
 export const SmallText: FC<TextProps> = (props) => (
-  <CustomText {...props} size={4} />
+  <CustomText size={3} {...props} />
 );
 export const UnderLineText: FC<TextProps> = (props) => (
-  <CustomText {...props} size={4.5} textDecorationLine="underline" />
+  <CustomText size={4.5} {...props} textDecorationLine="underline" />
 );
 
 export default CustomText;
