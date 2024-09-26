@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     width: width(33),
     height: width(33),
     borderRadius: width(19),
-    marginBottom: height(7),
   },
 });
 

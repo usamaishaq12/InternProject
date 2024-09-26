@@ -1,13 +1,6 @@
-import React, { Children, useState } from "react";
-import {
-  Image,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  ViewComponent,
-} from "react-native";
-import { FontFamily, Icons } from "~assets";
+import React, { Children, useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
+import auth from "@react-native-firebase/auth";
 import {
   Button,
   CustomCheckBox,
@@ -25,6 +18,8 @@ import { BackArrow, OpenEye, TickCircle } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import backArrow from "~assets/SVG/backArrow";
 import CustomText from "~components/text";
+import { number } from "yup";
+import GlobalMethods from "~utils/method";
 
 export default function CreateAccount({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,17 +27,58 @@ export default function CreateAccount({ navigation }) {
   const [password, setChangePassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [check, setCheck] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
   const handleCheck = () => {
+    console.log("setcheck", check);
     setCheck(!check);
   };
 
+  const validation = () => {
+    if (!email || !email.includes("@") || !/\S+@\S+\.\S+/.test(email)) {
+      GlobalMethods.errorMessage("Please enter correct email!");
+    } else if (!password || password.length < 6) {
+      GlobalMethods.errorMessage(
+        "Password should be greater than 6 characters!"
+      );
+    } else if (!confirmPassword || confirmPassword.length < 6) {
+      GlobalMethods.errorMessage(
+        "Confirm Password should be greater than 6 characters!"
+      );
+    } else if (password !== confirmPassword) {
+      GlobalMethods.errorMessage("Please match both password fields!");
+    } else if (!check) {
+      GlobalMethods.errorMessage("Please accept term and conditions!");
+    } else {
+      createAccount();
+    }
+  };
+
+  const createAccount = () => {
+    setLoader(true);
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        GlobalMethods.successMessage("Account successfully created!");
+        setLoader(false);
+        toggleModal();
+      })
+
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          GlobalMethods.errorMessage("That email address is already in use!");
+        }
+        if (error.code === "auth/invalid-email") {
+          GlobalMethods.errorMessage("That email address is invalid!");
+        }
+        console.log(error);
+        setLoader(false);
+      });
+  };
   function handleSubmitted() {
-    const body = { email, password, confirmPassword, check: check };
-    console.log(body);
     setModalVisible(false);
     navigation.navigate(ScreenNames.COMPLETEPROFILE);
   }
@@ -67,8 +103,10 @@ export default function CreateAccount({ navigation }) {
             }}
             maxLength={40}
             numberOfLines={2}
+            secureTextEntry={false}
             placeholderTextColor={AppColors.lightGrey}
-          ></InputText>
+          />
+
           <InputText
             mainViewContainer={styles.inputContainer}
             label="Password"
@@ -83,7 +121,8 @@ export default function CreateAccount({ navigation }) {
             numberOfLines={2}
             placeholderTextColor={AppColors.lightGrey}
             icon={() => <OpenEye />}
-          ></InputText>
+          />
+
           <InputText
             mainViewContainer={styles.inputContainer}
             label="Confirm Password"
@@ -98,10 +137,15 @@ export default function CreateAccount({ navigation }) {
             numberOfLines={2}
             placeholderTextColor={AppColors.lightGrey}
             icon={() => <OpenEye />}
-          ></InputText>
+          />
         </View>
         <View style={styles.rowContainer}>
-          <CustomCheckBox check={check} onPress={handleCheck} />
+          <CustomCheckBox
+            upperIcon
+            lowerIcon
+            check={check}
+            onPress={handleCheck}
+          />
           <Text style={styles.text2} onPress={() => null}>
             {`   I accept the`}
           </Text>
@@ -119,19 +163,52 @@ export default function CreateAccount({ navigation }) {
             {` Terms and Conditions`}
           </Text>
         </View>
-        <Button variant="primary" onPress={toggleModal}>
+
+        <Button
+          loader={loader}
+          variant="primary"
+          onPress={() => {
+            validation();
+          }}
+        >
           Register
         </Button>
+
         <CustomModal
-          // textStyle2={styles.modalContainer}
           isVisible={modalVisible}
           animationIn="slideInUp"
           animationOut="slideOutDown"
+          onBackdropPress={() => toggleModal()}
           title={`A confirmation link has been ${"\n"}${"     "}sent to your email for verification of your account`}
-          onBackButtonPress={() => handleSubmitted()}
+          onContinuePress={() => {
+            handleSubmitted();
+          }}
           label="Continue"
         />
       </View>
     </ScreenWrapper>
   );
 }
+
+// const Validation = () => {
+//   let error = {};
+//   if (!email) {
+//     error.email = "Email is required.";
+//   } else if (!/\S+@\S+\.\S+/.test(email)) {
+//     error.email = "Email is invalid.";
+//   }
+
+//   if (!password) {
+//     error.password = "Password is required.";
+//   } else if (password.length < 5) {
+//     error.password = "Password must be at least 6 characters.";
+//   }
+//   setError(error);
+// };
+// const handleSubmit = () => {
+//   if (isFormValid) {
+//     console.log("Form submitted successfully!");
+//   } else {
+//     console.log("Form has errors. Please correct them.");
+//   }
+// };

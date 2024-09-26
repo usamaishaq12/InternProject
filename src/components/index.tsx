@@ -15,7 +15,7 @@ export { default as CustomModal } from "./custom-modal";
 export { default as ServiceCustomModal } from "./service-custom-modal";
 export { default as CustomCheckBox } from "./check-box";
 export { default as SelectServices } from "./select-services";
-export { default as PhoneNumber } from "./phone-number";
+export { default as PhoneNumberComponent } from "./phone-number";
 export { default as ImageAvatar } from "./image-avatar";
 export { default as DeletePickerModal } from "./Delete-picker-modal";
 export { default as SelectZipCode } from "./select-zipcode";

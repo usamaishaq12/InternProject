@@ -23,16 +23,19 @@ const styles = StyleSheet.create({
     paddingVertical: height(3.1),
   },
   otpContainer: {
-    width: "84%",
+    width: "90%",
     height: height(8),
     marginBottom: height(4),
+    justifyContent: "space-evenly",
   },
 
   underlineStyleBase: {
     borderColor: AppColors.otpBorder,
     borderRadius: width(4),
     borderWidth: width(0.3),
-    width: width(15),
+    width: width(13.5),
+    fontSize: height(3),
+    color: AppColors.black,
     height: width(15),
   },
   underlineStyleHighlightBase: {

@@ -5,6 +5,7 @@ const successMessage = (description = "", message = "Success"): void => {
     message: message,
     description: description,
     type: "success",
+    position: "top",
   });
 };
 
@@ -13,6 +14,7 @@ const errorMessage = (description = "", message = "Error"): void => {
     message: message,
     description: description,
     type: "danger",
+    position: "top",
   });
 };
 

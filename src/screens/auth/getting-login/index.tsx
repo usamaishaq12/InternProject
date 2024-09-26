@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { Image, Text, View, TouchableOpacity, Alert } from "react-native";
 import { Icons } from "~assets";
 import {
   Button,
@@ -9,12 +9,13 @@ import {
   SmallText,
 } from "~components";
 import styles from "./styles";
-
+import auth from "@react-native-firebase/auth";
 // import { InputProps } from "~types";
 import { AppColors } from "~utils";
 import { useForm } from "react-hook-form";
-import { OpenEye } from "~assets/SVG";
+import { OpenEye, TickCheck } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
+import GlobalMethods from "~utils/method";
 
 export default function GettingLogin({ navigation }) {
   // const {
@@ -24,6 +25,7 @@ export default function GettingLogin({ navigation }) {
   const [email, setChangeEmail] = useState("");
   const [password, setChangePassword] = useState("");
   const [check, setCheck] = useState(false);
+
   const handleCheck = () => {
     console.log("setcheck", check);
     setCheck(!check);
@@ -34,7 +36,37 @@ export default function GettingLogin({ navigation }) {
     console.log(body);
     navigation.navigate(ScreenNames.CREATEACCOUNT);
   }
+  const validation = () => {
+    if (!email || !email.includes("@") || !/\S+@\S+\.\S+/.test(email)) {
+      GlobalMethods.errorMessage("Please enter correct email!");
+    } else if (!password || password.length < 6) {
+      GlobalMethods.errorMessage(
+        "Password should be greater than 6 characters!"
+      );
+    } else if (!check) {
+      GlobalMethods.toastMessage("Please Select Remember me!");
+    } else {
+      loginAccount();
+    }
+  };
 
+  const loginAccount = () => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        GlobalMethods.successMessage("Account Login Successfully!");
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          GlobalMethods.errorMessage("That email address is already in use!");
+        }
+
+        if (error.code === "auth/invalid-email") {
+          GlobalMethods.errorMessage("That email address is invalid!");
+        }
+        console.log(error);
+      });
+  };
   return (
     <ScreenWrapper
       transclucent
@@ -58,6 +90,7 @@ export default function GettingLogin({ navigation }) {
           }}
           maxLength={40}
           numberOfLines={1}
+          secureTextEntry={false}
           placeholderTextColor={AppColors.lightGrey}
         ></InputText>
         <InputText
@@ -77,6 +110,8 @@ export default function GettingLogin({ navigation }) {
 
         <View style={styles.rowContainer}>
           <CustomCheckBox
+            upperIcon
+            lowerIcon
             check={check}
             textStyleP={styles.checkBoxStyle}
             onPress={handleCheck}
@@ -91,7 +126,9 @@ export default function GettingLogin({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.loginButtonContainer}>
-          <Button variant="primary">Log In</Button>
+          <Button variant="primary" onPress={() => validation()}>
+            Log In
+          </Button>
         </View>
         <View style={styles.lowerButton}>
           <Text style={styles.textBottom}> Don’t have an account?</Text>

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ScreenNames from "./routes";
-import { selectIsLoggedIn } from "~redux/slices/user";
+import { selectIsLoggedIn, setUserMeta } from "~redux/slices/user";
 import {
   CompleteProfile,
   GettingLogin,
@@ -26,10 +26,23 @@ import { Loader } from "~components";
 import { AppColors } from "~utils";
 import { FontFamily } from "~assets";
 import CreateAccount from "~screens/auth/create-account";
+import auth from "@react-native-firebase/auth";
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
   const isLogin = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
+
+  function onAuthStateChanged(user) {
+    if (!user) {
+      dispatch(setUserMeta({ email: user?.email, uid: user?.uid }));
+    }
+  }
+  React.useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
   return (
     <NavigationContainer>
       <Loader />

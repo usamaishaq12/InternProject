@@ -5,6 +5,7 @@ import AppColors from "~utils/app-colors";
 import { SmallText } from "~components/text";
 import { InputTextProps } from "./types";
 import { FontFamily } from "~assets";
+import { OpenEye } from "~assets/SVG";
 
 const InputText: React.FC<InputTextProps> = ({
   label,

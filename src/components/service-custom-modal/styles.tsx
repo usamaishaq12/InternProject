@@ -56,9 +56,7 @@ const styles = StyleSheet.create({
     color: AppColors.black,
     paddingHorizontal: 20,
   },
-
-  // textStyleVP: {
-  // },
+  button: { marginTop: height(2) },
 });
 
 export default styles;

@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     paddingVertical: height(12.5),
     width: width(90),
     borderRadius: width(3),
-    marginTop: height(7),
   },
   iconViewStyle: {
     position: "absolute",
+    // marginBottom: height(2),
   },
   smallText: {
     fontSize: width(3.8),

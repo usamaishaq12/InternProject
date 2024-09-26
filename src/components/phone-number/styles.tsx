@@ -7,11 +7,12 @@ const styles = StyleSheet.create({
   phoneFieldView: {
     width: width(90),
     height: height(7.69),
-    // marginVertical: width(1),
-    backgroundColor: AppColors.green,
+
+    backgroundColor: AppColors.transparent,
     borderBottomWidth: width(0.3),
     borderBottomColor: AppColors.lightGrey,
     justifyContent: "center",
+    marginBottom: height(2),
   },
   phoneText: {
     fontFamily: FontFamily.Roboto_Regular,

@@ -13,7 +13,7 @@ export interface InputTextProps {
   maxLength?: number;
   numberOfLines?: number;
   autoFocus?: boolean;
-  icon?: () => void;
+  icon?: () => React.ReactNode;
   textStyle?: any;
   textStyleView?: any;
   pointerEvents?: "auto" | "none" | "box-none" | "box-only";

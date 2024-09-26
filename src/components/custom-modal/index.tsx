@@ -31,9 +31,11 @@ interface CustomModalProps {
   onDismiss?: () => void;
   containerStyle?: ViewStyle;
   svgStyle?: {};
+  onContinuePress?: () => void;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
+  onContinuePress,
   textStyle,
   textStyle2,
   label,
@@ -72,7 +74,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
         <Button
           containerStyle={[containerStyle]}
           variant="primary"
-          onPress={onBackButtonPress}
+          onPress={onContinuePress}
         >
           {label}
         </Button>

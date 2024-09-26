@@ -118,6 +118,7 @@ const ServiceCustomModal: React.FC<ServiceCustomModalProps> = ({
           keyExtractor={(item) => item.id.toString()}
         />
         <Button
+          containerStyle={styles.button}
           variant="primary"
           onPress={() =>
             onDonePress(

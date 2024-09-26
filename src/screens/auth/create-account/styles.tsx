@@ -32,5 +32,24 @@ const styles = StyleSheet.create({
     fontSize: width(3.1),
     fontFamily: "Roboto-Bold",
   },
+  errorEmail: {
+    fontSize: width(3),
+    fontFamily: FontFamily.Roboto_Bold,
+    color: AppColors.red,
+  },
+  errorPassword: {
+    fontSize: width(3),
+    fontFamily: FontFamily.Roboto_Bold,
+    color: AppColors.red,
+  },
+  errorConditions: {
+    fontSize: width(3),
+    fontFamily: FontFamily.Roboto_Bold,
+    color: AppColors.red,
+  },
+  privacyContainer: {
+    position: "relative",
+    bottom: height(5),
+  },
 });
 export default styles;

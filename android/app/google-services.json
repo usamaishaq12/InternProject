@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "556431519525",
+    "project_id": "chuckdat-d1b2b",
+    "storage_bucket": "chuckdat-d1b2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556431519525:android:629efd496546aacb9274cc",
+        "android_client_info": {
+          "package_name": "com.chuckdat.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACT-xnkvlFLpfZnXKiFTcCvux6fR0Fm2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

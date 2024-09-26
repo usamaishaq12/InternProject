@@ -1,21 +1,12 @@
 import React, { Children, useState } from "react";
-import {
-  Image,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  ViewComponent,
-} from "react-native";
+import { View } from "react-native";
 import { FontFamily, Icons } from "~assets";
 import {
   Button,
   CustomHeader,
   CustomModal,
   InputText,
-  LargeText,
   ScreenWrapper,
-  SmallText,
 } from "~components";
 import styles from "./styles";
 import { AppColors } from "~utils";
@@ -24,6 +15,7 @@ import { BackArrow, OpenEye, TickCircle } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import backArrow from "~assets/SVG/backArrow";
 import CustomText from "~components/text";
+import GlobalMethods from "~utils/method";
 
 export default function ResetPassword({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +24,15 @@ export default function ResetPassword({ navigation }) {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
+  const validation = () => {
+    if (!value || !value.includes("@") || !/\S+@\S+\.\S+/.test(value)) {
+      GlobalMethods.errorMessage("Please enter correct email!");
+    } else {
+      toggleModal();
+    }
+  };
+
   return (
     <ScreenWrapper>
       <CustomHeader
@@ -51,15 +52,17 @@ export default function ResetPassword({ navigation }) {
             onChangeText={(text: string) => {
               console.log(`Text is ${text}`), setChangeValue(text);
             }}
+            secureTextEntry={false}
             maxLength={40}
-            numberOfLines={2}
             placeholderTextColor={AppColors.lightGrey}
-          ></InputText>
+          />
           <Button
             variant="primary"
             buttonTextColor={AppColors.white}
-            // onPress={() => toggleModal()} another way
-            onPress={toggleModal}
+            onPress={() => {
+              validation();
+              // toggleModal();
+            }}
           >
             Send Password Reset Link
           </Button>
@@ -70,7 +73,11 @@ export default function ResetPassword({ navigation }) {
           animationOut="slideOutDown"
           tickIcon={() => <TickCircle />}
           title=" A link has been sent to your email to reset your password"
-          onBackButtonPress={() => navigation.goBack()}
+          onBackdropPress={() => toggleModal()}
+          onContinuePress={() => {
+            toggleModal();
+            navigation.navigate(ScreenNames.GETTINGLOGIN);
+          }}
           label="Back to Login"
         />
       </View>

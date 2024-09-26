@@ -1,11 +1,12 @@
-import React, { useMemo, FC, ReactNode } from "react";
+import React, { useMemo, FC, ReactNode, useState } from "react";
 import {
   TouchableOpacity,
   TouchableOpacityProps,
   StyleProp,
   ViewStyle,
+  ActivityIndicator,
 } from "react-native";
-import { SmallText } from "~components";
+import { Loader, SmallText } from "~components";
 import AppColors from "~utils/app-colors";
 import styles from "./styles";
 import { FontFamily } from "~assets";
@@ -22,6 +23,7 @@ interface ButtonProps {
   disabled?: boolean;
   buttonTextColor?: string;
   onDonePressed?: () => void;
+  loader?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -35,6 +37,7 @@ const Button: FC<ButtonProps> = ({
   textStyle = {},
   textProps = {},
   disabled = false,
+  loader,
   buttonTextColor = AppColors.white,
 }) => {
   const getStyles = useMemo(() => {
@@ -62,21 +65,25 @@ const Button: FC<ButtonProps> = ({
       disabled={disabled}
       {...touchableOpacityProps}
     >
-      <SmallText
-        color={
-          disabled
-            ? AppColors.black
-            : variant === "green"
-            ? AppColors.black
-            : buttonTextColor
-        }
-        fontFamily={FontFamily.Roboto_Bold}
-        size={3.8}
-        textStyles={textStyle}
-        textProps={textProps}
-      >
-        {children}
-      </SmallText>
+      {loader ? (
+        <ActivityIndicator color="red" size="small" />
+      ) : (
+        <SmallText
+          color={
+            disabled
+              ? AppColors.black
+              : variant === "green"
+              ? AppColors.black
+              : buttonTextColor
+          }
+          fontFamily={FontFamily.Roboto_Bold}
+          size={3.8}
+          textStyles={textStyle}
+          textProps={textProps}
+        >
+          {children}
+        </SmallText>
+      )}
     </TouchableOpacity>
   );
 };

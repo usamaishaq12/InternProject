@@ -9,27 +9,42 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
   },
-  checkboxContainer: {
+
+  bigCheckBoxContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: width(12),
+    height: width(6.5),
+    width: width(6.5),
+  },
+  smallCheckBoxContainer: {
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderRadius: width(12),
     height: width(4.5),
     width: width(4.5),
-    // height: width(7),
-    // width: width(7),
   },
-  checkbox: {
+  smallCheckBox: {
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    backgroundColor: "black",
-    height: width(6),
-    width: width(6),
-    // height: width(6),
-    // width: width(6),
-    borderRadius: width(14),
-    color: AppColors.grey,
+    // // backgroundColor: "black",
+    // // height: width(3),
+    // // width: width(3),
+    // borderRadius: width(14),
+    // color: AppColors.grey,
+  },
+  bigCheckBox: {
+    // justifyContent: "center",
+    // alignItems: "center",
+    // textAlign: "center",
+    // backgroundColor: "black",
+    // height: width(7),
+    // width: width(7),
+    // borderRadius: width(14),
+    // color: AppColors.grey,
   },
 });
 

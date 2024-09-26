@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: height(6.5),
   },
+  iconViewStyle: { position: "absolute" },
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",

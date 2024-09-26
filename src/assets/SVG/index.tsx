@@ -7,3 +7,4 @@ export { default as CameraIcon } from "./cameraIcon";
 export { default as DeleteIcon } from "./deleteIcon";
 export { default as MapPin } from "./mapPin";
 export { default as DownArrow } from "./downArrow";
+export { default as TickCheck } from "./tickCheck";
