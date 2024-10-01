@@ -133,6 +133,7 @@ export default function GettingLogin({ navigation }) {
         <View style={styles.lowerButton}>
           <Text style={styles.textBottom}> Don’t have an account?</Text>
           <Button
+            containerStyle={{ backgroundColor: AppColors.white }}
             onPress={() => {
               handleSubmit();
             }}

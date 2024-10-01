@@ -31,7 +31,7 @@ export default function VerificationCode({ navigation }) {
   const [user, setUser] = useState();
   const [confirmation, setConfirmation] = useState(null);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   interface VerificationCodeParams {
     confirm: any;
@@ -93,7 +93,10 @@ export default function VerificationCode({ navigation }) {
         console.log("No credential found");
         return;
       }
-      const userData = await auth().signInWithCredential(credential);
+      // const userData = await auth().signInWithCredential(credential);
+      const userData = await auth()?.currentUser?.linkWithCredential(
+        credential
+      );
       console.log("User data:", userData);
       setUser(userData?.user);
       setModal(true);

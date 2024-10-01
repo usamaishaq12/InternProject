@@ -25,10 +25,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textInput: {
+    color: AppColors.fullBlack,
     height: height(4.5),
     paddingVertical: 0,
   },
   textInput1: {
+    color: AppColors.fullBlack,
     height: height(4.5),
     paddingVertical: 0,
   },

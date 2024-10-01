@@ -13,23 +13,19 @@ import {
 import auth from "@react-native-firebase/auth";
 import styles from "./styles";
 import { AppColors } from "~utils";
-import { useForm } from "react-hook-form";
+
 import { OpenEye, TickCircle } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import PhoneInput from "react-native-phone-number-input";
-import { Id } from "@reduxjs/toolkit/dist/tsHelpers";
+
 import CustomText from "~components/text";
 import { FlagButton } from "react-native-country-picker-modal";
-import Login from "../login";
+
 import GlobalMethods from "~utils/method";
 import firestore from "@react-native-firebase/firestore";
-interface Service {
-  map(arg0: (services: any) => any): any;
-  id: number;
-  name: string;
-  isSelected: boolean;
-  yearsOfExperience: string;
-}
+import { useSelector } from "react-redux";
+import { selectUserMeta } from "~redux/slices/user";
+
 // interface ServiceMapProp {
 //   item: Service;
 //   index: number;
@@ -37,8 +33,9 @@ interface Service {
 
 export default function CompleteProfile({ navigation }) {
   // const { } = useForm()
-
-  const phoneInput = useRef(null);
+  const user = useSelector(selectUserMeta);
+  // console.log(user, ">>>>>");
+  const phoneInput = useRef<PhoneInput>(null);
   const [NodalVisible, setNodalVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Service[]>([]);
   const [firstName, setFirstName] = useState("");
@@ -46,6 +43,14 @@ export default function CompleteProfile({ navigation }) {
   const [phoneCode, setPhoneCode] = useState("");
   const [confirm, setConfirm] = useState(null);
   const [loader, setLoader] = useState(false);
+
+  interface Service {
+    map(arg0: (services: any) => any): any;
+    id: number;
+    name: string;
+    isSelected: boolean;
+    yearsOfExperience: string;
+  }
 
   const toggleNodal = () => {
     setNodalVisible(!NodalVisible);
@@ -77,6 +82,7 @@ export default function CompleteProfile({ navigation }) {
     phoneCode: string,
     selectedServices: Service[]
   ) => {
+    setLoader(true);
     console.log(firstName, "FirstName");
     console.log(secondName, "lastName");
     console.log(phoneCode, "phoneNumber");
@@ -84,16 +90,16 @@ export default function CompleteProfile({ navigation }) {
     const id = new Date().valueOf().toString();
 
     try {
-      await firestore().collection("Users").doc(id).set({
+      await firestore().collection("Users").doc(user.uid).set({
         firstName: firstName,
         lastName: secondName,
         phoneNumber: phoneCode,
         services: selectedServices,
-        uid: id,
         createdAt: id,
       });
       GlobalMethods.successMessage("Data added succesfully");
       console.log("Data added Successfully");
+      setLoader(false);
       sendOtp("+1 650 555 1234");
     } catch (error) {
       console.log(error, "Data not added");
@@ -196,11 +202,9 @@ export default function CompleteProfile({ navigation }) {
           }
         />
         {selectedServices.map((item: Service, index: number) => {
-          // console.log(item, "item");
-          // console.log(item, "item");
-          // console.log(item?.name, "item");
           return (
             <InputText
+              key={index}
               mainViewContainer={styles.serviceViewContainer}
               label={`Years of experience in ${item?.name}`}
               placeholder="0"
@@ -211,7 +215,6 @@ export default function CompleteProfile({ navigation }) {
                 temp[index].yearsOfExperience = t;
                 console.log(temp, "temp");
                 setSelectedServices(temp);
-                // console.log(t, "t");
               }}
               maxLength={2}
               secureTextEntry={false}
@@ -259,69 +262,3 @@ export default function CompleteProfile({ navigation }) {
 //     console.error("Error adding data: ", error);
 //   }
 // };
-
-/////////////////////
-// {
-/* <View style={styles.phoneFieldView}>
-          <SmallText size={3} textStyles={styles.phoneText}>
-            Phone Number
-          </SmallText>
-          <PhoneInput
-            ref={phoneInput}
-            withDarkTheme={false}
-            defaultCode="US"
-            layout="first"
-            flagButtonStyle={styles.flagButton}
-            placeholder=" Phone number"
-            containerStyle={styles.phoneContainer}
-            textContainerStyle={styles.phoneTextContainer}
-            textInputStyle={styles.phoneTextInput}
-            codeTextStyle={styles.phoneCodeText}
-            onChangeFormattedText={(text) => setPhoneCode(text)}
-          />
-        </View> */
-
-//         phoneFieldView: {
-//           width: width(90),
-//           height: height(7.69),
-//           borderBottomWidth: width(0.3),
-//           borderBottomColor: AppColors.lightGrey,
-//           justifyContent: "center",
-//           marginBottom: height(2),
-//         },
-//         phoneText: {
-//           fontFamily: FontFamily.Roboto_Regular,
-//           color: AppColors.snowGrey,
-//         },
-//         phoneContainer: {
-//           flex: 1,
-//           width: "80%",
-//           height: height(5),
-//           backgroundColor: AppColors.transparent,
-//           flexDirection: "row",
-//         },
-//         phoneTextContainer: {
-//           paddingVertical: width(0),
-//           backgroundColor: AppColors.transparent,
-//           paddingHorizontal: 3,
-//           marginHorizontal: -6.6,
-//         },
-//         phoneTextInput: {
-//           fontSize: width(4),
-//           color: AppColors.black,
-//           backgroundColor: AppColors.transparent,
-//           marginHorizontal: -11,
-//           alignItems: "center",
-//         },
-//         phoneCodeText: {
-//           fontSize: width(3.8),
-//           color: AppColors.black,
-//           backgroundColor: AppColors.transparent,
-//         },
-//         flagButton: {
-//           backgroundColor: AppColors.transparent,
-//           width: width(14),
-//           justifyContent: "space-between",
-//           flexDirection: "row-reverse",
-//         },
-// }

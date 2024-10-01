@@ -34,7 +34,7 @@ export default function Routes() {
   const dispatch = useDispatch();
 
   function onAuthStateChanged(user) {
-    if (!user) {
+    if (user) {
       dispatch(setUserMeta({ email: user?.email, uid: user?.uid }));
     }
   }

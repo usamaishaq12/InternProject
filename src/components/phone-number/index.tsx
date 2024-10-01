@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
 import { View, ViewProps, ViewStyle } from "react-native";
 import { SmallText } from "~components";
 import PhoneInput from "react-native-phone-number-input";
 import styles from "./styles";
 import { CountryCode, FlagButton } from "react-native-country-picker-modal";
-import { ref } from "yup";
+
+import { forwardRef, useRef } from "react";
+import React from "react";
 
 interface PhoneNumberComponentProps {
   defaultCode?: CountryCode;
@@ -13,19 +14,22 @@ interface PhoneNumberComponentProps {
   placeholder?: string;
   containerStyle?: ViewProps;
   onChangeFormattedText?: (text: string) => void;
-  ref?: any;
 }
 
-const PhoneNumberComponent: React.FC<PhoneNumberComponentProps> = ({
-  flagButton,
-  defaultCode,
-
-  ref,
-  placeholder,
-  onChangeFormattedText,
-  containerStyle,
-  layout,
-}) => {
+export const PhoneNumberComponent: React.ForwardRefRenderFunction<
+  PhoneInput,
+  PhoneNumberComponentProps
+> = (
+  {
+    flagButton,
+    defaultCode,
+    placeholder,
+    onChangeFormattedText,
+    containerStyle,
+    layout,
+  },
+  ref
+) => {
   return (
     <View style={styles.phoneFieldView}>
       <SmallText size={3} textStyles={styles.phoneText}>
@@ -48,4 +52,6 @@ const PhoneNumberComponent: React.FC<PhoneNumberComponentProps> = ({
   );
 };
 
-export default PhoneNumberComponent;
+export default forwardRef<PhoneInput, PhoneNumberComponentProps>(
+  PhoneNumberComponent
+);

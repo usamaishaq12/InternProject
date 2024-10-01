@@ -4,6 +4,7 @@ import { DropDownMenu } from "~components";
 
 interface DeletePickerModalProps {
   onFilesSelect: (images: Image[]) => void;
+  // onFilesSelect: (images: Image) => void;
   allowMultiple?: boolean;
 }
 

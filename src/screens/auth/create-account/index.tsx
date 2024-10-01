@@ -189,26 +189,3 @@ export default function CreateAccount({ navigation }) {
     </ScreenWrapper>
   );
 }
-
-// const Validation = () => {
-//   let error = {};
-//   if (!email) {
-//     error.email = "Email is required.";
-//   } else if (!/\S+@\S+\.\S+/.test(email)) {
-//     error.email = "Email is invalid.";
-//   }
-
-//   if (!password) {
-//     error.password = "Password is required.";
-//   } else if (password.length < 5) {
-//     error.password = "Password must be at least 6 characters.";
-//   }
-//   setError(error);
-// };
-// const handleSubmit = () => {
-//   if (isFormValid) {
-//     console.log("Form submitted successfully!");
-//   } else {
-//     console.log("Form has errors. Please correct them.");
-//   }
-// };

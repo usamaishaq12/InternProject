@@ -21,106 +21,134 @@ import ScreenNames from "~Routes/routes";
 import storage from "@react-native-firebase/storage";
 import fireStore from "@react-native-firebase/firestore";
 import { utils } from "@react-native-firebase/app";
+import { array } from "yup";
+import GlobalMethods from "~utils/method";
+import { useSelector } from "react-redux";
+import { selectUserMeta } from "~redux/slices/user";
 
 export default function UploadPictures({ navigation }) {
+  const user = useSelector(selectUserMeta);
+  console.log(user, ">>>>>>>>>.");
   const showImagePickerRef = useRef<FilePickerModalRef | null>(null);
   const showDeletePickerRef = useRef<DeletePickerModalRef | null>(null);
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const [galleryPicture, setGalleryPicture] = useState<string[]>([]);
   const [check, setCheck] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   // The putFile method returns a Task, which if required, allows you to hook into information such as the current upload progress:
-
   const uploadImageToStorage = async (imagePath: string) => {
-    console.log(" Uploading image :", imagePath);
+    // console.log(" Uploading image :", imagePath);
     try {
-      // const reference = storage().ref(`images/${imagePath}`);
       const reference = storage().ref(`images/${imagePath.split("/").pop()}`);
       const task = reference.putFile(imagePath);
-      task.on("state_changed", (taskSnapshot) => {
-        console.log(
-          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-        );
-      });
+      // task.on("state_changed", (taskSnapshot) => {
+      //   console.log(
+      //     `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
+      //   );
+      // });
       await task;
+      console.log("Profile picture Uploading to storage successful");
       const url = await reference.getDownloadURL();
-      console.log("Image uploaded to the bucket!", url);
-
-      await addPictureDataToDatabase(url);
+      return url;
     } catch (error) {
-      console.log("Uploading image error => ", error);
+      console.log("Profile picture Uploading to storage Failed", error);
+      GlobalMethods.errorMessage(
+        " Profile picture Uploading to storage Failed! "
+      );
     }
   };
 
-  const addPictureDataToDatabase = async (downloadURL?: string) => {
-    try {
-      await fireStore()
-        .collection("Users")
-        .doc("1727378607556")
-        .update({ ProfilePicture: downloadURL });
-      console.log("Image path added ");
-    } catch (error) {
-      console.log("Error while updating", error);
-    }
-  };
+  // const addPictureDataToDatabase = async (downloadURL?: string) => {
+  //   try {
+  //     await fireStore()
+  //       .collection("Users")
+  //       .doc("1727378607556")
+  //       .update({ ProfilePicture: downloadURL });
+  //     console.log("Image path added ");
+  //     GlobalMethods.successMessage(
+  //       "Profile Picture added to Firebase successfully"
+  //     );
+  //     setLoader(false);
+  //   } catch (error) {
+  //     console.log("Error while updating", error);
+  //     GlobalMethods.successMessage(
+  //       "Error while uploading profile picture to firebase"
+  //     );
+  //   }
+  // };
+
   const pictureSelection = (value?: any) => {
     console.log("Selected file:", value);
     if (value?.path) {
       setProfilePicture(value?.path);
       console.log("valuePath", value?.path);
-      handleImageUpload();
+      // uploadImageToStorage(value);
     }
   };
 
-  const handleImageUpload = () => {
-    if (profilePicture) {
-      uploadImageToStorage(profilePicture);
-    }
-  };
-
-  ////////////////////////////////////////////////
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const uploadGalleryToStorage = async (imagePath: string) => {
-    console.log(" Uploading image :", imagePath);
     try {
-      // const reference = storage().ref(`images/${imagePath}`);
       const reference = storage().ref(
         `GalleryImages/${imagePath.split("/").pop()}`
       );
       const task = reference.putFile(imagePath);
-      task.on("state_changed", (taskSnapshot) => {
-        console.log(
-          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-        );
-      });
+      // task.on("state_changed", (taskSnapshot) => {
+      //   console.log(
+      //     `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
+      //   );
+      // });
       await task;
+      console.log("Gallery Images uploaded to Storage succesfully");
       const url = await reference.getDownloadURL();
-      console.log("Gallery Images uploaded to the bucket!", url);
-
-      await addGalleryDataToDatabase(url);
+      return url;
     } catch (error) {
-      console.log("Uploading Gallery Images error => ", error);
+      console.log("Gallery Images Uploading to storage bucket failed! ", error);
     }
   };
+  // const addGalleryDataToDatabase = async (downloadURL?: any) => {
+  //   try {
+  //     await fireStore()
+  //       .collection("Users")
+  //       .doc("1727378607556")
+  //       .update({ GallerPictures: downloadURL });
+  //     console.log(
+  //       "Gallery Images uploaded to fireDataBase successfully",
+  //       downloadURL
+  //     );
+  //     GlobalMethods.successMessage(
+  //       "Gallery Images Uploading to FireBase success! "
+  //     );
+  //   } catch (error) {
+  //     console.log("Error while updating", error);
+  //     GlobalMethods.errorMessage(
+  //       "Gallery Images Uploading to storage bucket failed! "
+  //     );
+  //   }
+  // };
 
-  const addGalleryDataToDatabase = async (downloadURL?: string) => {
-    let newDownloadUrl = [];
-
-    try {
-      await fireStore()
-        .collection("Users")
-        .doc("1727378607556")
-        .update({ GallerPictures: downloadURL });
-      console.log("Gallery Images path added ");
-    } catch (error) {
-      console.log("Error while updating", error);
-    }
-  };
-  // const handleGalleryupload = () => {
   //   if (galleryPicture) {
   //     uploadGalleryToStorage(galleryPicture);
   //   }
   // };
+  const gallerySelection = async (value: string[]) => {
+    const newImages = value
+      .map((item: any) => {
+        item.path;
+        if (item.path) {
+          value.push(item.path);
+        }
+        return item.path;
+      })
+      .filter(Boolean);
+    setGalleryPicture(newImages);
+
+    // addGalleryDataToDatabase(temp);
+    // console.log("New Path", newImages);
+  };
+
   const deleteHandler = (value: string[]) => {
     console.log(value, "Value to be deleted");
     const deletePics = galleryPicture.filter((item: any) => item !== value);
@@ -136,6 +164,66 @@ export default function UploadPictures({ navigation }) {
     console.log(galleryPicture);
   }
 
+  const completeSubmit = async () => {
+    if (!profilePicture) {
+      GlobalMethods.errorMessage("Please Upload profile picture");
+    } else if (galleryPicture.length <= 0) {
+      GlobalMethods.errorMessage("Please Select equipment Images");
+    } else {
+      setLoader(true);
+      const profileURL = await uploadImageToStorage(profilePicture);
+      let temp = [];
+      for (let i = 0; i < galleryPicture.length; i++) {
+        const element = galleryPicture[i];
+
+        const galleryUrl = await uploadGalleryToStorage(element);
+        temp.push(galleryUrl);
+      }
+
+      const body = async () => {
+        try {
+          await fireStore().collection("Users").doc(user.uid).update({
+            profilePicture: profileURL,
+            isSelected: check,
+            equipmentPictures: temp,
+          });
+          GlobalMethods.successMessage("Images uploaded successfully");
+          console.log("Images uploaded successfully");
+        } catch (error) {
+          console.log("Error while updating", error);
+          GlobalMethods.errorMessage(" Images Uploading to fireBase failed! ");
+        }
+      };
+      setLoader(false);
+      console.log("Upload pictures >>>>", body());
+
+      navigation.navigate(ScreenNames.LOCATIONSCREEN);
+    }
+  };
+
+  // const uploadingToFirestore = async (downloadURL?: any) => {
+  //   try {
+  //     await fireStore()
+  //       .collection("Users")
+  //       .doc("1727378607556")
+  //       .update({  profilePicture: profileURL,
+  //         isSelected: check,
+  //         equipmentPictures: temp, });
+  //     console.log(
+  //       "Gallery Images uploaded to fireDataBase successfully",
+  //       downloadURL
+  //     );
+  //     GlobalMethods.successMessage(
+  //       "Gallery Images Uploading to FireBase success! "
+  //     );
+  //   } catch (error) {
+  //     console.log("Error while updating", error);
+  //     GlobalMethods.errorMessage(
+  //       "Gallery Images Uploading to storage bucket failed! "
+  //     );
+  //   }
+  // };
+
   // const gallerySelection = (value: any) => {
   //   console.log("Gallery file:", value);
   //   if (value) {
@@ -146,37 +234,15 @@ export default function UploadPictures({ navigation }) {
   //   }
   // };
 
-  const gallerySelection = (value: string[]) => {
-    const newImages = value
-      .map((item: any) => {
-        item.path;
-        if (item.path) {
-          value.push(item.path);
-        }
-        return item.path;
-      })
-      .filter(Boolean);
-
-    setGalleryPicture(newImages);
-
-    for (let i = 0; i < newImages.length; i++) {
-      const element = newImages[i];
-      console.log(element);
-      uploadGalleryToStorage(element);
-    }
-    console.log("New Path", newImages);
-  };
-
   interface renderDataProps {
     item: string[];
   }
-
   const renderData = ({ item }: renderDataProps) => {
     return (
       <ListImageContainer
         viewContainerStyle={styles.viewListContainerStyle}
-        onPress={() => deleteHandler(item)}
         source={{ uri: item }}
+        onPress={() => deleteHandler(item)}
       />
     );
   };
@@ -226,20 +292,17 @@ export default function UploadPictures({ navigation }) {
               <CameraButton onPress={() => handleGallerySubmit()} />
             }
             contentContainerStyle={styles.contentContainerStyle}
-            // numColumns={3}
             data={galleryPicture}
             renderItem={renderData}
           />
 
           <Button
+            loader={loader}
             containerStyle={styles.footerButton}
             variant="primary"
             buttonTextColor={AppColors.white}
             children={"Continue"}
-            onPress={() => {
-              // handleImageUpload();
-              navigation.navigate(ScreenNames.LOCATIONSCREEN);
-            }}
+            onPress={() => completeSubmit()}
           />
         </View>
         <FilePickerModal
@@ -254,37 +317,3 @@ export default function UploadPictures({ navigation }) {
     </ScreenWrapper>
   );
 }
-
-//   getPlatformPath({ path, uri }) {
-//     return Platform.select({
-//         android: { path },
-//         ios: { uri }
-//     })
-// }
-
-// const requestStoragePermission = async () => {
-//   try {
-//     const granted = await PermissionsAndroid.request(
-//       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-//       {
-//         title: "Storage Permission",
-//         message: "This app needs access to your storage to upload images.",
-//         buttonNeutral: "Ask Me Later",
-//         buttonNegative: "Cancel",
-//         buttonPositive: "OK",
-//       }
-//     );
-
-//     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-//       console.log("Storage permission granted");
-//     } else {
-//       console.log("Storage permission denied");
-//     }
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// };
-// Call permission request on component mount
-// useEffect(() => {
-//   requestStoragePermission();
-// }, []);

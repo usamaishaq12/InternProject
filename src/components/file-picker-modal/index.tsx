@@ -3,8 +3,10 @@ import ImagePicker, { Image } from "react-native-image-crop-picker"; // Assuming
 import { DropDownMenu } from "~components";
 
 interface FilePickerModalProps {
-  onFilesSelected: (images: Image[]) => void;
+  // onFilesSelected: (images: Image[]) => void;
+  onFilesSelected: (images: Image) => void;
   allowMultiple?: boolean;
+  
 }
 
 export interface FilePickerModalRef {

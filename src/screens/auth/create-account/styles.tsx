@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: AppColors.transparent,
   },
   mainViewContainer: {
     justifyContent: "center",
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: height(3),
   },
+
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",

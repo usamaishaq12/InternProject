@@ -52,11 +52,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
+
   viewListContainerStyle: {
     marginHorizontal: width(1),
     marginBottom: height(1),
   },
-  listHeaderStyle: { marginHorizontal: width(1), marginBottom: height(1) },
+  listHeaderStyle: {
+    marginHorizontal: width(1),
+    marginBottom: height(1),
+  },
   footerButton: {
     marginBottom: height(3.8),
     marginTop: height(2),

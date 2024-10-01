@@ -24,10 +24,11 @@ export default function GettingStarted({ navigation }) {
         <Image source={Icons.chuck} style={styles.chuckImage} />
         <Text style={styles.text}>v1.0.0</Text>
         <Button
-          onPress={() =>
-            //  navigation.navigate(ScreenNames.GETTINGLOGIN)
-            navigation.navigate(ScreenNames.UPLOADPICTURES)
-          }
+          onPress={() => {
+            // return navigation.navigate(ScreenNames.GETTINGLOGIN);
+            // navigation.navigate(ScreenNames.UPLOADPICTURES);
+            navigation.navigate(ScreenNames.LOCATIONSCREEN);
+          }}
           variant="green"
         >
           Get Started

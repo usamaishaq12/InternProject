@@ -6,9 +6,10 @@ import { height, width } from "~utils/dimensions";
 const styles = StyleSheet.create({
   mainViewContainer: {
     flex: 1,
+
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: AppColors.white,
+    backgroundColor: AppColors.transparent,
     paddingTop: height(4),
   },
   innerContaner: {

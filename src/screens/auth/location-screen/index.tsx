@@ -11,27 +11,85 @@ import {
 import styles from "./styles";
 import { AppColors } from "~utils";
 import { BackArrow, DownArrow } from "~assets/SVG";
-
+import fireStore from "@react-native-firebase/firestore";
 import ScreenNames from "~Routes/routes";
+import GlobalMethods from "~utils/method";
+import { useSelector } from "react-redux";
+import { selectUserMeta } from "~redux/slices/user";
 
 export default function LocationScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [adress, setAddress] = useState("");
+  const [streetAdress, setStreetAddress] = useState("");
   const [cityName, setCityName] = useState("");
   const [stateName, setStateName] = useState("");
   const [countryName, setCountryName] = useState("");
   const [zipCode, setZipCode] = useState("");
+  const [loader, setLoader] = useState(false);
+  const user = useSelector(selectUserMeta);
+  // console.log(user);
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
+  const validation = () => {
+    if (!streetAdress) {
+      GlobalMethods.errorMessage("Please enter Street Adress!");
+    } else if (!cityName) {
+      GlobalMethods.errorMessage("Please enter City name!");
+    } else if (!stateName) {
+      GlobalMethods.errorMessage("Please enter State!");
+    } else if (!countryName) {
+      GlobalMethods.errorMessage("Please enter Country name!");
+    } else if (!zipCode) {
+      GlobalMethods.errorMessage("Please enter zip code!");
+    } else handleSubmitted();
   };
 
   function handleSubmitted() {
-    const body = { adress, cityName, setCityName, countryName, zipCode };
-    console.log(body);
-    setModalVisible(false);
-    navigation.navigate(ScreenNames.COMPLETEPROFILE);
+    setLoader(true);
+    const body = { streetAdress, cityName, stateName, countryName, zipCode };
+    console.log(body, ">>>>>>>>>>>>>");
+
+    addLocationData(streetAdress, cityName, stateName, countryName, zipCode);
   }
+
+  const addLocationData = async (
+    streetAdress?: string,
+    cityName?: string,
+    stateName?: string,
+    countryName?: string,
+    zipCode?: string
+  ) => {
+    const id = new Date().valueOf().toString();
+    const address = {
+      StreetAddress: streetAdress,
+      City: cityName,
+      State: stateName,
+      Country: countryName,
+      ZipCode: zipCode,
+      createdAt: id,
+    };
+    try {
+      await fireStore()
+        .collection("Users")
+        .doc(user.uid)
+        .update({
+          address: address,
+          // StreetAddress: streetAdress,
+          // City: cityName,
+          // State: stateName,
+          // Country: countryName,
+          // ZipCode: zipCode,
+          // createdAt: id,
+        })
+        .then(() => {
+          GlobalMethods.successMessage("Data added succesfully");
+          console.log("Data added Successfully");
+          setLoader(false);
+          setModalVisible(true);
+        });
+    } catch (error) {
+      console.log(error, "Data not added");
+      GlobalMethods.errorMessage("Error data not added");
+    }
+  };
 
   return (
     <ScreenWrapper>
@@ -46,11 +104,12 @@ export default function LocationScreen({ navigation }) {
             mainViewContainer={styles.inputContainer}
             label="Street Address"
             placeholder="14 Wall Street, Manhattan"
-            value={adress}
+            value={streetAdress}
             onChangeText={(text: string) => {
-              setAddress(text);
+              setStreetAddress(text);
             }}
             maxLength={40}
+            secureTextEntry={false}
             placeholderTextColor={AppColors.lightGrey}
           />
           <View style={styles.rowContainer}>
@@ -61,10 +120,11 @@ export default function LocationScreen({ navigation }) {
               label="City"
               placeholder="New York City"
               value={cityName}
-              onChangeText={(text: string) => {
-                setCityName(text);
+              onChangeText={(value: string) => {
+                setCityName(value);
               }}
               maxLength={40}
+              secureTextEntry={false}
               placeholderTextColor={AppColors.lightGrey}
             />
             <InputText
@@ -74,10 +134,9 @@ export default function LocationScreen({ navigation }) {
               label="State"
               placeholder="NY"
               value={stateName}
-              onChangeText={(text: string) => {
-                setStateName(text);
-              }}
+              onChangeText={(text: string) => setStateName(text)}
               maxLength={40}
+              secureTextEntry={false}
               placeholderTextColor={AppColors.lightGrey}
             />
           </View>
@@ -89,10 +148,9 @@ export default function LocationScreen({ navigation }) {
               label="Country"
               placeholder="USA"
               value={countryName}
-              onChangeText={(text: string) => {
-                setCountryName(text);
-              }}
+              onChangeText={(text: string) => setCountryName(text)}
               maxLength={40}
+              secureTextEntry={false}
               placeholderTextColor={AppColors.lightGrey}
             />
             <InputText
@@ -102,17 +160,19 @@ export default function LocationScreen({ navigation }) {
               placeholder="12345"
               value={zipCode}
               autoCapitalize={"none"}
-              onChangeText={(text: string) => {
-                setZipCode(text);
-              }}
+              onChangeText={(text: string) => setZipCode(text)}
               maxLength={40}
+              secureTextEntry={false}
               placeholderTextColor={AppColors.lightGrey}
             />
           </View>
         </View>
         <Button
+          loader={loader}
           variant="primary"
-          onPress={() => navigation.navigate(ScreenNames.IDENTITYVERIFICATION)}
+          onPress={() => {
+            validation();
+          }}
         >
           Continue
         </Button>
@@ -122,7 +182,10 @@ export default function LocationScreen({ navigation }) {
           animationIn="slideInUp"
           animationOut="slideOutDown"
           title={`A confirmation link has been ${"\n"}${"     "}sent to your email for verification of your account`}
-          onBackButtonPress={() => handleSubmitted()}
+          onContinuePress={() => {
+            setModalVisible(false);
+            navigation.navigate(ScreenNames.IDENTITYVERIFICATION);
+          }}
           label="Continue"
         />
       </View>
