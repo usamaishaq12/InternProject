@@ -21,7 +21,7 @@ import CustomText from "~components/text";
 import { number } from "yup";
 import GlobalMethods from "~utils/method";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserMeta } from "~redux/slices/user";
+import { selectUserMeta, setUserMeta } from "~redux/slices/user";
 
 export default function CreateAccount({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +32,8 @@ export default function CreateAccount({ navigation }) {
   const [loader, setLoader] = useState(false);
 
   const dispatch = useDispatch();
+
+  dispatch(setUserMeta());
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);

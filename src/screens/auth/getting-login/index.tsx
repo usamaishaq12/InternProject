@@ -40,35 +40,29 @@ export default function GettingLogin({ navigation }) {
   const user = useSelector(selectUserMeta);
   const dispatch = useDispatch();
   const handleCheck = () => {
-    console.log("setcheck", check);
     setCheck(!check);
   };
 
   function handleSubmit() {
-    const body = { email, password, check: check };
-    console.log(body);
     navigation.navigate(ScreenNames.CREATEACCOUNT);
   }
-  const getDataFromFire = async () => {
+  const getDataFromFire = async (uid: string) => {
     setLoader(true);
     try {
       await firestore()
         .collection("Users")
-        .doc(user.uid)
+        .doc(uid)
         .get()
         .then((documentSnapshot) => {
-          console.log("User exists: ", documentSnapshot.exists);
-
           if (documentSnapshot.exists) {
-            console.log("User data>>>>>>: ", documentSnapshot.data());
+            GlobalMethods.successMessage("User Data Fecthed Successfully!");
             dispatch(setUserMeta(documentSnapshot.data()));
             dispatch(setIsLoggedIn(true));
           }
         });
     } catch (error) {
-      console.log("Error>>>>>>>>>.", error);
+      console.log("Error while fetching data>>>>", error);
     }
-
     setLoader(false);
   };
 
@@ -76,9 +70,12 @@ export default function GettingLogin({ navigation }) {
     setLoader(true);
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((val) => {
+        console.log(val, "usejhkfgyukdhktdfyil;tuituituir");
+        getDataFromFire(val.user.uid);
         GlobalMethods.successMessage("Account Login Successfully!");
-        console.log("Account Login Successfully!");
+
+        // dispatch(setIsLoggedIn(true));
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -91,7 +88,6 @@ export default function GettingLogin({ navigation }) {
         console.log(error);
       });
     setLoader(false);
-    getDataFromFire();
   };
   const validation = () => {
     if (!email || !email.includes("@") || !/\S+@\S+\.\S+/.test(email)) {

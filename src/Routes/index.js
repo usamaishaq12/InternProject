@@ -40,7 +40,7 @@ export default function Routes() {
 
   function onAuthStateChanged(user) {
     if (user) {
-      console.log("users>>>", user);
+      // console.log("users>>>", user);
       dispatch(setUserMeta({ email: user?.email, uid: user?.uid }));
     }
   }
@@ -61,7 +61,7 @@ export default function Routes() {
           }
         });
     } catch (error) {
-      console.log("Error>>>>>>>>>", error);
+      console.log("Route Error while fetching data>>>", error);
     }
   };
   React.useEffect(() => {
