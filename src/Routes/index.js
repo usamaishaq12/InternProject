@@ -3,7 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useDispatch, useSelector } from "react-redux";
 import ScreenNames from "./routes";
-import { selectIsLoggedIn, setUserMeta } from "~redux/slices/user";
+import {
+  selectIsLoggedIn,
+  setIsLoggedIn,
+  setUserMeta,
+} from "~redux/slices/user";
 import {
   CompleteProfile,
   GettingLogin,
@@ -27,6 +31,7 @@ import { AppColors } from "~utils";
 import { FontFamily } from "~assets";
 import CreateAccount from "~screens/auth/create-account";
 import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
@@ -35,13 +40,42 @@ export default function Routes() {
 
   function onAuthStateChanged(user) {
     if (user) {
+      console.log("users>>>", user);
       dispatch(setUserMeta({ email: user?.email, uid: user?.uid }));
     }
   }
+
+  const getDataFromFire = async () => {
+    try {
+      const id = auth().currentUser.uid;
+      await firestore()
+        .collection("Users")
+        .doc(id)
+        .get()
+        .then((documentSnapshot) => {
+          console.log("User exists: ", documentSnapshot.exists);
+          if (documentSnapshot.exists) {
+            console.log("User data>>>>>>: ", documentSnapshot.data());
+            dispatch(setUserMeta(documentSnapshot.data()));
+            dispatch(setIsLoggedIn(true));
+          }
+        });
+    } catch (error) {
+      console.log("Error>>>>>>>>>", error);
+    }
+  };
+  React.useEffect(() => {
+    getDataFromFire();
+  }, []);
+
   React.useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
+  // React.useEffect(() => {
+  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+  //   return subscriber;
+  // }, []);
 
   return (
     <NavigationContainer>

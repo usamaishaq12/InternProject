@@ -29,8 +29,14 @@ export default function ResetPassword({ navigation }) {
     if (!value || !value.includes("@") || !/\S+@\S+\.\S+/.test(value)) {
       GlobalMethods.errorMessage("Please enter correct email!");
     } else {
+      handleSubmit();
       toggleModal();
     }
+  };
+
+  const handleSubmit = () => {
+    const body = { email: value };
+    console.log(body);
   };
 
   return (
@@ -49,9 +55,7 @@ export default function ResetPassword({ navigation }) {
             placeholder="Enter here"
             value={value}
             autoCapitalize={"none"}
-            onChangeText={(text: string) => {
-              console.log(`Text is ${text}`), setChangeValue(text);
-            }}
+            onChangeText={(text: string) => setChangeValue(text)}
             secureTextEntry={false}
             maxLength={40}
             placeholderTextColor={AppColors.lightGrey}
@@ -61,7 +65,6 @@ export default function ResetPassword({ navigation }) {
             buttonTextColor={AppColors.white}
             onPress={() => {
               validation();
-              // toggleModal();
             }}
           >
             Send Password Reset Link

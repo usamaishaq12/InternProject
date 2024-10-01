@@ -72,12 +72,6 @@ export default function LocationScreen({ navigation }) {
         .doc(user.uid)
         .update({
           address: address,
-          // StreetAddress: streetAdress,
-          // City: cityName,
-          // State: stateName,
-          // Country: countryName,
-          // ZipCode: zipCode,
-          // createdAt: id,
         })
         .then(() => {
           GlobalMethods.successMessage("Data added succesfully");
@@ -192,3 +186,40 @@ export default function LocationScreen({ navigation }) {
     </ScreenWrapper>
   );
 }
+
+// function handleSubmitted() {
+//   setLoader(true);
+//   const body = { streetAdress, cityName, stateName, countryName, zipCode };
+//   console.log(body, ">>>>>>>>>>>>>");
+// addLocationData(streetAdress, cityName, stateName, countryName, zipCode);
+// }
+
+// const addLocationData = async () =>
+//   {
+//     const id = new Date().valueOf().toString();
+//     const address = {
+//       StreetAddress: streetAdress,
+//       City: cityName,
+//       State: stateName,
+//       Country: countryName,
+//       ZipCode: zipCode,
+//       createdAt: id,
+//     };
+//     try {
+//       await fireStore()
+//         .collection("Users")
+//         .doc(user.uid)
+//         .update({
+//           address,
+//         })
+//         .then(() => {
+//           GlobalMethods.successMessage("Data added succesfully");
+//           console.log("Data added Successfully");
+//           setLoader(false);
+//           setModalVisible(true);
+//         });
+//     } catch (error) {
+//       console.log(error, "Data not added");
+//       GlobalMethods.errorMessage("Error data not added");
+//     }
+//   };

@@ -25,7 +25,11 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     marginBottom: height(2),
   },
-
+  inputContainer: {
+    // marginTop: height(3),
+    // marginBottom: height(2),
+    // backgroundColor: "yellow",
+  },
   imageStyles: {
     paddingVertical: height(12.5),
     width: width(90),

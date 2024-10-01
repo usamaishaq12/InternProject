@@ -20,6 +20,8 @@ import backArrow from "~assets/SVG/backArrow";
 import CustomText from "~components/text";
 import { number } from "yup";
 import GlobalMethods from "~utils/method";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserMeta } from "~redux/slices/user";
 
 export default function CreateAccount({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -28,6 +30,8 @@ export default function CreateAccount({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [check, setCheck] = useState(false);
   const [loader, setLoader] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -64,6 +68,7 @@ export default function CreateAccount({ navigation }) {
       .then(() => {
         GlobalMethods.successMessage("Account successfully created!");
         setLoader(false);
+
         toggleModal();
       })
 
@@ -79,6 +84,12 @@ export default function CreateAccount({ navigation }) {
       });
   };
   function handleSubmitted() {
+    const body = {
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+    console.log(body);
     setModalVisible(false);
     navigation.navigate(ScreenNames.COMPLETEPROFILE);
   }

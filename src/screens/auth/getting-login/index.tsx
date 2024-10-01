@@ -17,6 +17,16 @@ import { OpenEye, TickCheck } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import GlobalMethods from "~utils/method";
 
+import Home from "~screens/app/home";
+import {
+  selectIsLoggedIn,
+  selectUserMeta,
+  setIsLoggedIn,
+  setUserMeta,
+} from "~redux/slices/user";
+import { useDispatch, useSelector } from "react-redux";
+import firestore from "@react-native-firebase/firestore";
+
 export default function GettingLogin({ navigation }) {
   // const {
 
@@ -25,7 +35,10 @@ export default function GettingLogin({ navigation }) {
   const [email, setChangeEmail] = useState("");
   const [password, setChangePassword] = useState("");
   const [check, setCheck] = useState(false);
+  const [loader, setLoader] = useState(false);
 
+  const user = useSelector(selectUserMeta);
+  const dispatch = useDispatch();
   const handleCheck = () => {
     console.log("setcheck", check);
     setCheck(!check);
@@ -36,6 +49,50 @@ export default function GettingLogin({ navigation }) {
     console.log(body);
     navigation.navigate(ScreenNames.CREATEACCOUNT);
   }
+  const getDataFromFire = async () => {
+    setLoader(true);
+    try {
+      await firestore()
+        .collection("Users")
+        .doc(user.uid)
+        .get()
+        .then((documentSnapshot) => {
+          console.log("User exists: ", documentSnapshot.exists);
+
+          if (documentSnapshot.exists) {
+            console.log("User data>>>>>>: ", documentSnapshot.data());
+            dispatch(setUserMeta(documentSnapshot.data()));
+            dispatch(setIsLoggedIn(true));
+          }
+        });
+    } catch (error) {
+      console.log("Error>>>>>>>>>.", error);
+    }
+
+    setLoader(false);
+  };
+
+  const loginAccount = async () => {
+    setLoader(true);
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        GlobalMethods.successMessage("Account Login Successfully!");
+        console.log("Account Login Successfully!");
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          GlobalMethods.errorMessage("That email address is already in use!");
+        }
+
+        if (error.code === "auth/invalid-email") {
+          GlobalMethods.errorMessage("That email address is invalid!");
+        }
+        console.log(error);
+      });
+    setLoader(false);
+    getDataFromFire();
+  };
   const validation = () => {
     if (!email || !email.includes("@") || !/\S+@\S+\.\S+/.test(email)) {
       GlobalMethods.errorMessage("Please enter correct email!");
@@ -50,23 +107,6 @@ export default function GettingLogin({ navigation }) {
     }
   };
 
-  const loginAccount = () => {
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        GlobalMethods.successMessage("Account Login Successfully!");
-      })
-      .catch((error) => {
-        if (error.code === "auth/email-already-in-use") {
-          GlobalMethods.errorMessage("That email address is already in use!");
-        }
-
-        if (error.code === "auth/invalid-email") {
-          GlobalMethods.errorMessage("That email address is invalid!");
-        }
-        console.log(error);
-      });
-  };
   return (
     <ScreenWrapper
       transclucent
@@ -92,7 +132,7 @@ export default function GettingLogin({ navigation }) {
           numberOfLines={1}
           secureTextEntry={false}
           placeholderTextColor={AppColors.lightGrey}
-        ></InputText>
+        />
         <InputText
           label="Password"
           placeholder="Enter Password"
@@ -106,7 +146,7 @@ export default function GettingLogin({ navigation }) {
           numberOfLines={1}
           placeholderTextColor={AppColors.lightGrey}
           icon={() => <OpenEye />}
-        ></InputText>
+        />
 
         <View style={styles.rowContainer}>
           <CustomCheckBox
@@ -126,7 +166,13 @@ export default function GettingLogin({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.loginButtonContainer}>
-          <Button variant="primary" onPress={() => validation()}>
+          <Button
+            loader={loader}
+            variant="primary"
+            onPress={() => {
+              validation();
+            }}
+          >
             Log In
           </Button>
         </View>

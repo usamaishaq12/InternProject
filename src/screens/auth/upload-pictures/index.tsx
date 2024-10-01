@@ -155,13 +155,12 @@ export default function UploadPictures({ navigation }) {
     setGalleryPicture(deletePics);
   };
   function handleSubmit() {
-    const body = { profilePicture };
     showImagePickerRef.current?.show();
-    console.log(body);
+    console.log({ profilePicture: profilePicture });
   }
   function handleGallerySubmit() {
     showDeletePickerRef.current?.show();
-    console.log(galleryPicture);
+    console.log({ galleryPicture: profilePicture });
   }
 
   const completeSubmit = async () => {
@@ -180,7 +179,7 @@ export default function UploadPictures({ navigation }) {
         temp.push(galleryUrl);
       }
 
-      const body = async () => {
+      const uploadToFireStore = async () => {
         try {
           await fireStore().collection("Users").doc(user.uid).update({
             profilePicture: profileURL,
@@ -195,7 +194,7 @@ export default function UploadPictures({ navigation }) {
         }
       };
       setLoader(false);
-      console.log("Upload pictures >>>>", body());
+      console.log("Upload pictures >>>>", uploadToFireStore());
 
       navigation.navigate(ScreenNames.LOCATIONSCREEN);
     }
@@ -317,3 +316,22 @@ export default function UploadPictures({ navigation }) {
     </ScreenWrapper>
   );
 }
+
+/////////////////////////////
+
+// const newImages = value.map((item: any) => item.path);
+// const temp = [...galleryPicture, ...newImages];
+// value.map((item: any) => item.path);:
+
+// This line is using the map function on the value array.
+// For each item in the value array, it extracts the path property.
+// The result is a new array, newImages, containing only the path values from each item in value.
+// The any type annotation indicates that item can be of any type, though it's often better to specify the actual type for clarity.
+// const temp = [...galleryPicture, ...newImages];:
+
+// This line creates a new array, temp, by combining two arrays: galleryPicture and newImages.
+// The spread operator (...) is used to expand the elements of both arrays into a new array.
+// As a result, temp will contain all the elements from galleryPicture followed by all the elements from newImages.
+// Summary
+// Purpose: This code snippet is extracting paths from a collection of items and merging them into a new array that includes existing images in galleryPicture.
+// Outcome: The temp array will hold a combination of the paths from galleryPicture and the newly extracted paths from value.

@@ -21,7 +21,7 @@ export default function SelectRadius({ navigation }) {
       <CustomHeader
         backIcon={<BackArrow />}
         title="Select Radius"
-        onBackPress={() => navigation.goBack(ScreenNames.SERVICEAREAS)}
+        onBackPress={() => navigation.goBack(ScreenNames.PDFFORM)}
       />
       <View style={styles.container}>
         <View style={styles.viewContainer}>

@@ -21,12 +21,14 @@ interface SelectZipCodeProps {
   onDonePressed: (value: Service[]) => void;
   mainViewContainer?: ViewStyle;
   children?: string;
+  title?: string;
 }
 
 const SelectZipCode: React.FC<SelectZipCodeProps> = ({
   onDonePressed,
   mainViewContainer,
   children,
+  title,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [SelectZipCode, setSelectedZipCode] = useState<ZipCode[]>([]);
@@ -77,7 +79,7 @@ const SelectZipCode: React.FC<SelectZipCodeProps> = ({
         isVisible={modalVisible}
         onBackdropPress={toggleModal}
         onBackButtonPress={toggleModal}
-        title="Select Zip Codes"
+        title={title}
         label="Done"
         onDonePress={(value) => {
           onDonePressed(value);

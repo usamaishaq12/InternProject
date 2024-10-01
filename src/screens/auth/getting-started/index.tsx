@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Image,
-  Text,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import { Image, Text, View } from "react-native";
 import { Icons } from "~assets";
 import styles from "./styles";
 import { Button, ScreenWrapper } from "~components";
@@ -24,11 +18,7 @@ export default function GettingStarted({ navigation }) {
         <Image source={Icons.chuck} style={styles.chuckImage} />
         <Text style={styles.text}>v1.0.0</Text>
         <Button
-          onPress={() => {
-            // return navigation.navigate(ScreenNames.GETTINGLOGIN);
-            // navigation.navigate(ScreenNames.UPLOADPICTURES);
-            navigation.navigate(ScreenNames.LOCATIONSCREEN);
-          }}
+          onPress={() => navigation.navigate(ScreenNames.GETTINGLOGIN)}
           variant="green"
         >
           Get Started

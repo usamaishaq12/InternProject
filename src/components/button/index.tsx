@@ -66,7 +66,7 @@ const Button: FC<ButtonProps> = ({
       {...touchableOpacityProps}
     >
       {loader ? (
-        <ActivityIndicator color="red" size="small" />
+        <ActivityIndicator color={AppColors.white} size="small" />
       ) : (
         <SmallText
           color={

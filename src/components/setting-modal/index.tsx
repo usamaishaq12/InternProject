@@ -1,7 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { DropDownMenu } from '~components';
-import { setIsLoggedIn, setUserMeta } from '~redux/slices/user';
+import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { useDispatch } from "react-redux";
+import { DropDownMenu } from "~components";
+import { setIsLoggedIn, setUserMeta } from "~redux/slices/user";
+import auth, { firebase } from "@react-native-firebase/auth";
+import GlobalMethods from "~utils/method";
+import ScreenNames from "~Routes/routes";
 
 interface SettingModalProps {}
 
@@ -10,10 +13,10 @@ export interface SettingModalRef {
   hide: () => void;
 }
 
-const SettingModal: React.ForwardRefRenderFunction<SettingModalRef, SettingModalProps> = (
-  {},
-  ref
-) => {
+const SettingModal: React.ForwardRefRenderFunction<
+  SettingModalRef,
+  SettingModalProps
+> = ({ navigation }, ref) => {
   const dispatch = useDispatch();
   const [isVisible, setVisible] = useState(false);
 
@@ -25,6 +28,16 @@ const SettingModal: React.ForwardRefRenderFunction<SettingModalRef, SettingModal
       setVisible(false);
     },
   }));
+  const signOut = () => {
+    try {
+      auth()
+        .signOut()
+        .then(() => console.log("User signed out successfully!"));
+      GlobalMethods.successMessage("User signed out successfully!");
+    } catch (error) {
+      console.log("SignOut Error", error);
+    }
+  };
 
   return (
     <DropDownMenu
@@ -34,11 +47,14 @@ const SettingModal: React.ForwardRefRenderFunction<SettingModalRef, SettingModal
       onPressFirstBtn={() => {
         setVisible(false);
         setTimeout(() => {
+          signOut();
           dispatch(setUserMeta(null));
           dispatch(setIsLoggedIn(false));
         }, 600);
       }}
-      onPressSecondBtn={() => {}}
+      onPressSecondBtn={() => {
+        navigation.navigate(ScreenNames.GETTINGSTARTED);
+      }}
       onPressThirdBtn={() => {}}
       onClose={() => setVisible(false)}
     />

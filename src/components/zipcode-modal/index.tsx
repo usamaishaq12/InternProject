@@ -27,8 +27,8 @@ interface ZipCodeModalProps {
   isVisible: boolean;
   onBackdropPress: () => void;
   onBackButtonPress: () => void;
-  label: string;
-  title: string;
+  label?: string;
+  title?: string;
   onDonePress: (value: ZipCode[]) => void;
 }
 
