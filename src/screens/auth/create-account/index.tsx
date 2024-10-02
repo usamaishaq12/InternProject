@@ -33,7 +33,9 @@ export default function CreateAccount({ navigation }) {
 
   const dispatch = useDispatch();
 
-  dispatch(setUserMeta());
+  // dispatch(setUserMeta());
+  // const user = useSelector(selectUserMeta);
+  // console.log(user, "user!!!!>>>>>");
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -67,7 +69,8 @@ export default function CreateAccount({ navigation }) {
     setLoader(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((val) => {
+        console.log(val, "<<<<<<<<<<");
         GlobalMethods.successMessage("Account successfully created!");
         setLoader(false);
 
@@ -116,6 +119,7 @@ export default function CreateAccount({ navigation }) {
             }}
             maxLength={40}
             numberOfLines={2}
+            keyboardType="email-address"
             secureTextEntry={false}
             placeholderTextColor={AppColors.lightGrey}
           />

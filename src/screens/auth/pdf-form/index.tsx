@@ -44,7 +44,7 @@ export default function PdfForm({ navigation }) {
               <Button
                 containerStyle={styles.doneButton}
                 children={"Done"}
-                onPress={() => {}}
+                onPress={() => navigation.navigate(ScreenNames.GETTINGSTARTED)}
               />
             </View>
           )}

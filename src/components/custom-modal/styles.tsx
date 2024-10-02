@@ -6,7 +6,7 @@ import { height, width } from "~utils/dimensions";
 const styles = StyleSheet.create({
   modalContainer: {
     alignItems: "center",
-    backgroundColor: AppColors.white,
+    backgroundColor: AppColors.transparent,
     width: width(100),
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

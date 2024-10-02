@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     height: width(28),
     width: width(28),
     borderRadius: width(4),
-    backgroundColor: AppColors.lightGrey,
+    backgroundColor: AppColors.avatarBackground,
     alignItems: "center",
   },
 });

@@ -34,7 +34,7 @@ import { selectUserMeta } from "~redux/slices/user";
 export default function CompleteProfile({ navigation }) {
   // const { } = useForm()
   const user = useSelector(selectUserMeta);
-  // console.log(user, ">>>>>");
+  // console.log(user, "!>>>>>");
   const phoneInput = useRef<PhoneInput>(null);
   const [NodalVisible, setNodalVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Service[]>([]);
@@ -90,7 +90,7 @@ export default function CompleteProfile({ navigation }) {
     const id = new Date().valueOf().toString();
 
     try {
-      await firestore().collection("Users").doc(user.uid).set({
+      await firestore().collection("Users").doc(user?.uid).set({
         firstName: firstName,
         lastName: secondName,
         phoneNumber: phoneCode,
@@ -118,7 +118,7 @@ export default function CompleteProfile({ navigation }) {
       console.log(confirmation, "confirmation");
       setConfirm(confirmation);
       console.log("OTP sent successfully");
-      GlobalMethods.toastMessage("OTP sent successfully");
+      GlobalMethods.successMessage("OTP sent successfully");
       setLoader(false);
       toggleNodal();
     } catch (e) {

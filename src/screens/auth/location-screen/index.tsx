@@ -83,6 +83,7 @@ export default function LocationScreen({ navigation }) {
       console.log(error, "Data not added");
       GlobalMethods.errorMessage("Error data not added");
     }
+    setLoader(false);
   };
 
   return (
@@ -153,6 +154,7 @@ export default function LocationScreen({ navigation }) {
               label="Zip Code"
               placeholder="12345"
               value={zipCode}
+              keyboardType="numeric"
               autoCapitalize={"none"}
               onChangeText={(text: string) => setZipCode(text)}
               maxLength={40}

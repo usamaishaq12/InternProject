@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: height(2),
   },
-
   chuckImage: {
     height: width(31),
     width: width(31),

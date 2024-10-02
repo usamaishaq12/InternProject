@@ -91,11 +91,7 @@ export default function ServiceAreas({ navigation }) {
             // source={cnicPicture ? { uri: cnicPicture } : undefined}
             onPress={() => {}}
           />
-          {/* <SelectZipCode
-            children="Mile Radius"
-            title="Select Mile Radius"
-            onDonePressed={(value) => setMileRadius(value)}
-          /> */}
+
           <InputText
             mainViewContainer={styles.inputContainer}
             label="Mile radius"

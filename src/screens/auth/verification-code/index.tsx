@@ -103,12 +103,14 @@ export default function VerificationCode({ navigation }) {
     } catch (error) {
       if (error && typeof error === "object" && "code" in error) {
         if (error.code === "auth/invalid-verification-code") {
-          GlobalMethods.errorMessage("Invalid code.");
+          GlobalMethods.errorMessage("Invalid code!!");
         } else {
           console.log("Error linking account:", error);
+          GlobalMethods.errorMessage("Error linking account!");
         }
       } else {
         console.log("Error:", error);
+        GlobalMethods.errorMessage("Error!!");
       }
     }
   };
@@ -121,7 +123,6 @@ export default function VerificationCode({ navigation }) {
       <View style={styles.container}>
         <View style={styles.viewContainer}>
           <LargeText
-            // containerStyles={styles.viewHeaderText}
             textStyles={styles.mainHeaderText}
             children={"Please enter the code we sent to your phone number"}
           />
@@ -130,6 +131,7 @@ export default function VerificationCode({ navigation }) {
             pinCount={6}
             keyboardAppearance="dark"
             autoFocusOnLoad={false}
+            keyboardType="number-pad"
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighlightBase}
             onCodeChanged={(text) => {

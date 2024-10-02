@@ -6,11 +6,11 @@ import { height, width } from "~utils/dimensions";
 const styles = StyleSheet.create({
   mainViewContainer: {
     flex: 1,
-
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: AppColors.transparent,
-    paddingTop: height(4),
+    // backgroundColor: AppColors.red,
+    paddingTop: height(5),
   },
   innerContaner: {
     alignItems: "center",
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     marginBottom: height(1.5),
   },
   lowerButton: {
-    marginVertical: height(3.5),
+    // marginBottom: height(7),
   },
   textColor: {
     color: AppColors.black,

@@ -17,5 +17,6 @@ const AppColors = {
   snowGrey: "#444444",
   borderColorGrey: "#EFEFEF",
   otpBorder: "#333333",
+  avatarBackground: "#DDDDDD",
 };
 export default AppColors;

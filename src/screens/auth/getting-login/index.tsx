@@ -17,21 +17,11 @@ import { OpenEye, TickCheck } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import GlobalMethods from "~utils/method";
 
-import Home from "~screens/app/home";
-import {
-  selectIsLoggedIn,
-  selectUserMeta,
-  setIsLoggedIn,
-  setUserMeta,
-} from "~redux/slices/user";
+import { selectUserMeta, setIsLoggedIn, setUserMeta } from "~redux/slices/user";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 
 export default function GettingLogin({ navigation }) {
-  // const {
-
-  // } = useForm()
-
   const [email, setChangeEmail] = useState("");
   const [password, setChangePassword] = useState("");
   const [check, setCheck] = useState(false);
@@ -47,6 +37,7 @@ export default function GettingLogin({ navigation }) {
     navigation.navigate(ScreenNames.CREATEACCOUNT);
   }
   const getDataFromFire = async (uid: string) => {
+    console.log(uid, ">>>>>");
     setLoader(true);
     try {
       await firestore()
@@ -56,6 +47,7 @@ export default function GettingLogin({ navigation }) {
         .then((documentSnapshot) => {
           if (documentSnapshot.exists) {
             GlobalMethods.successMessage("User Data Fecthed Successfully!");
+            console.log("User Data Fecthed Successfully!");
             dispatch(setUserMeta(documentSnapshot.data()));
             dispatch(setIsLoggedIn(true));
           }
@@ -71,11 +63,9 @@ export default function GettingLogin({ navigation }) {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then((val) => {
-        console.log(val, "usejhkfgyukdhktdfyil;tuituituir");
         getDataFromFire(val.user.uid);
+        console.log(val, "val!!!!!!!!!!");
         GlobalMethods.successMessage("Account Login Successfully!");
-
-        // dispatch(setIsLoggedIn(true));
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -85,6 +75,7 @@ export default function GettingLogin({ navigation }) {
         if (error.code === "auth/invalid-email") {
           GlobalMethods.errorMessage("That email address is invalid!");
         }
+        GlobalMethods.errorMessage("Invalid Login Credentials");
         console.log(error);
       });
     setLoader(false);
@@ -127,6 +118,7 @@ export default function GettingLogin({ navigation }) {
           maxLength={40}
           numberOfLines={1}
           secureTextEntry={false}
+          keyboardType="email-address"
           placeholderTextColor={AppColors.lightGrey}
         />
         <InputText
@@ -140,6 +132,7 @@ export default function GettingLogin({ navigation }) {
           maxLength={40}
           secureTextEntry={false}
           numberOfLines={1}
+          keyboardType="name-phone-pad"
           placeholderTextColor={AppColors.lightGrey}
           icon={() => <OpenEye />}
         />

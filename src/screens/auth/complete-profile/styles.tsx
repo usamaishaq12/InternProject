@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: AppColors.white,
   },
   headingView: {
     marginTop: height(4),
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   },
   footerButton: {
     backgroundColor: AppColors.transparent,
-    height: height(11),
+    height: height(11.5),
   },
 });
 

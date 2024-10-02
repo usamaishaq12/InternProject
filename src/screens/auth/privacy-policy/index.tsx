@@ -27,7 +27,7 @@ export default function PrivacyPolicy({ navigation }) {
     <ScreenWrapper>
       <CustomHeader
         backIcon={<BackArrow />}
-        title="Create an account"
+        title="Privacy Policy"
         onBackPress={() => navigation.goBack(ScreenNames.CREATEACCOUNT)}
       />
       <ScrollView>

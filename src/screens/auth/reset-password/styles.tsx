@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: AppColors.transparent,
   },
   container: {
     height: height(38),

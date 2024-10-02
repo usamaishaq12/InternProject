@@ -6,10 +6,10 @@ const styles = StyleSheet.create({
   mainContainer: { paddingVertical: height(2) },
   cameraContainer: {
     justifyContent: "center",
-    height: width(33),
-    width: width(33),
+    height: width(32.5),
+    width: width(32.5),
     borderRadius: width(19),
-    backgroundColor: AppColors.lightGrey,
+    backgroundColor: AppColors.avatarBackground,
     alignItems: "center",
   },
   imageStyles: {
