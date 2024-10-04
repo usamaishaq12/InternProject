@@ -26,13 +26,44 @@ import {
   verificationCode,
   HomeScreen,
 } from "~screens/auth";
-import { Home } from "~screens/app";
 import { Loader } from "~components";
 
 import CreateAccount from "~screens/auth/create-account";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+<Tab.Navigator
+  screenOptions={({ route }) => ({
+    tabBarIcon: ({ focused, color, size }) => {
+      let iconName;
+
+      if (route.name === ScreenNames.HOMESCREEN) {
+        iconName = focused
+          ? ScreenNames.HOMESCREEN
+          : "ios-information-circle-outline";
+      } else if (route.name === ScreenNames.DATESCREEN) {
+        iconName = true ? ScreenNames.DATESCREEN : "ios-list";
+      } else if (route.name === ScreenNames.ORDERSCREEN) {
+        iconName = true ? ScreenNames.ORDERSCREEN : "ios-list";
+      } else if (route.name === ScreenNames.PROFILESCREEN) {
+        iconName = true ? ScreenNames.PROFILESCREEN : "ios-list";
+      } else {
+        iconName = "help-circle-outline";
+      }
+      return <MaterialIcons name={iconName} size={size} color={color} />;
+    },
+    tabBarActiveTintColor: "red",
+    tabBarInactiveTintColor: "gray",
+  })}
+>
+  <Tab.Screen name={ScreenNames.HOMESCREEN} component={HomeScreen} />
+  <Tab.Screen name={ScreenNames.DATESCREEN} component={DateScreen} />
+  <Tab.Screen name={ScreenNames.ORDERSCREEN} component={OrderScreen} />
+  <Tab.Screen name={ScreenNames.PROFILESCREEN} component={ProfileScreen} />
+</Tab.Navigator>;
 
 export default function Routes() {
   const isLogin = useSelector(selectIsLoggedIn);

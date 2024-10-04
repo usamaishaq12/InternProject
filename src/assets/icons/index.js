@@ -4,5 +4,9 @@ const Icons = {
   chuck: require("./bgc.png"),
   logo: require("./logo.png"),
   machine: require("./machine.png"),
+  dateIcon: require("./dateIcon.png"),
+  orderIcon: require("./orderIcon.png"),
+  profileIcon: require("./profileIcon.png"),
+  tabChuckLogo: require("./tabChuckLogo.png"),
 };
 export default Icons;

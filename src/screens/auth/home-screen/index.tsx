@@ -8,6 +8,8 @@ import styles from "./styles";
 import HomeHeader from "~components/home-header";
 import CustomText from "~components/text";
 import OrderRequest from "~components/order-request";
+import ScreenNames from "~Routes/routes";
+import { DateScreen, OrderScreen, ProfileScreen } from "..";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -40,40 +42,4 @@ export default function HomeScreen({ navigation }) {
       </View> */}
     </ScreenWrapper>
   );
-}
-
-{
-  /* <Tab.Navigator
-  screenOptions={({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {
-      let iconName;
-  
-      if (route.name === "Home") {
-        iconName = focused ? "home" : "ios-information-circle-outline";
-      } else if (route.name === "Feed") {
-        iconName = true ? "feed" : "ios-list";
-      } else if (route.name === "History") {
-        iconName = true ? "history" : "ios-list";
-      } else if (route.name === "CreatePost") {
-        iconName = true ? "post-add" : "ios-list";
-      } else {
-        iconName = "help-circle-outline";
-      }
-      return <MaterialIcons name={iconName} size={size} color={color} />;
-    },
-    tabBarActiveTintColor: "red",
-    tabBarInactiveTintColor: "gray",
-  })}
-  >
-  <Tab.Screen
-    name="Home"
-    component={DrawerHome}
-    options={{
-      headerShown: false,
-    }}
-  />
-  <Tab.Screen name="Feed" component={Feed} />
-  <Tab.Screen name="History" component={History} />
-  <Tab.Screen name="CreatePost" component={CreatePost} />
-  </Tab.Navigator> */
 }
