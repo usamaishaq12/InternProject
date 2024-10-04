@@ -8,3 +8,7 @@ export { default as DeleteIcon } from "./deleteIcon";
 export { default as MapPin } from "./mapPin";
 export { default as DownArrow } from "./downArrow";
 export { default as TickCheck } from "./tickCheck";
+export { default as Pin } from "./pin";
+export { default as Chat } from "./chat";
+export { default as Notification } from "./notification";
+export { default as RightArrow } from "./rightArrow";

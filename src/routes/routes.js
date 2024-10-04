@@ -15,5 +15,9 @@ const ScreenNames = {
   SERVICEAREAS: "ServiceAreas",
   SELECTRADIUS: "SelectRadius",
   PDFFORM: "PdfForm",
+  HOMESCREEN: "HomeScreen",
+  ORDERSCREEN: "OrderScreen",
+  PROFILESCREEN: "ProfileScreen",
+  DATESCREEN: "DateScreen",
 };
 export default ScreenNames;

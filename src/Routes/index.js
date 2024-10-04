@@ -24,11 +24,11 @@ import {
   UploadPictures,
   VerificationCode,
   verificationCode,
+  HomeScreen,
 } from "~screens/auth";
-import { HomeScreen } from "~screens/app";
+import { Home } from "~screens/app";
 import { Loader } from "~components";
-import { AppColors } from "~utils";
-import { FontFamily } from "~assets";
+
 import CreateAccount from "~screens/auth/create-account";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
@@ -72,19 +72,16 @@ export default function Routes() {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
-  // React.useEffect(() => {
-  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-  //   return subscriber;
-  // }, []);
 
   return (
     <NavigationContainer>
       <Loader />
       {!isLogin ? (
         <Stack.Navigator
-          initialRouteName={ScreenNames.GETTINGSTARTED}
+          initialRouteName={ScreenNames.HOMESCREEN}
           screenOptions={{ header: () => false }}
         >
+          <Stack.Screen name={ScreenNames.HOMESCREEN} component={HomeScreen} />
           <Stack.Screen
             name={ScreenNames.GETTINGSTARTED}
             component={GettingStarted}

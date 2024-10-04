@@ -5,6 +5,8 @@ const AppColors = {
   black: "#222222",
   fullBlack: "#000000",
   red: "#E94560",
+  solidRed: "#F60700",
+  solidGreen: "#40D500",
   hardGrey: "#888888",
   transparent: "transparent",
   primary: "#16213E",
