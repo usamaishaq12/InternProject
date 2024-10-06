@@ -1,8 +1,12 @@
 import * as React from "react";
+import { StyleProp, ViewStyle } from "react-native";
 import Svg, { Defs, ClipPath, Path, G, Circle } from "react-native-svg";
+interface PinProps {
+  style?: StyleProp<ViewStyle>;
+}
 
-const Pin = (props: any) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} {...props}>
+const Pin: React.FC<PinProps> = ({ style, ...props }) => (
+  <Svg width={14} height={14} {...props}>
     <Defs>
       <ClipPath id="a">
         <Path

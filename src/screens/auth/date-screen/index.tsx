@@ -12,7 +12,7 @@ import { BackArrow } from "~assets/SVG";
 import styles from "./styles";
 import { ZipCode } from "~components/zipcode-modal";
 
-export default function ProfileScreen({ navigation }) {
+export default function DateScreen({ navigation }: any) {
   return (
     <ScreenWrapper>
       <CustomHeader

@@ -17,7 +17,7 @@ export default function ProfileScreen({ navigation }) {
     <ScreenWrapper>
       <CustomHeader
         backIcon={<BackArrow />}
-        title="Select Radius"
+        title="Profile"
         onBackPress={() => navigation.goBack(ScreenNames.PDFFORM)}
       />
       {/* <View style={styles.container}>

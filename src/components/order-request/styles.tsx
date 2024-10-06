@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: width(85),
     alignItems: "center",
-
     marginVertical: width(2.6),
   },
   machineLogoStyle: { width: width(12), height: height(6) },
@@ -34,18 +33,20 @@ const styles = StyleSheet.create({
   },
   pinView: {
     flexDirection: "row",
+    width: width(83),
   },
+
   pintext: {
     fontSize: 12,
     width: width(82),
-    fontStyle: FontFamily.Roboto_Regular,
+    fontFamily: FontFamily.Roboto_Regular,
+    marginLeft: width(1),
   },
   rowContainer: {
     flexDirection: "row",
     borderRadius: width(4),
     width: width(85),
     justifyContent: "space-between",
-
     paddingVertical: height(2),
   },
   declineBtn: {

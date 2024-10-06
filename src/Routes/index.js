@@ -1,8 +1,10 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useNavigationState } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import ScreenNames from "./routes";
+
 import {
   selectIsLoggedIn,
   setIsLoggedIn,
@@ -23,47 +25,142 @@ import {
   TermsAndConditions,
   UploadPictures,
   VerificationCode,
-  verificationCode,
+  ProfileScreen,
+  OrderScreen,
   HomeScreen,
+  DateScreen,
 } from "~screens/auth";
-import { Loader } from "~components";
+import { Loader, TabColor } from "~components";
 
 import CreateAccount from "~screens/auth/create-account";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FontFamily, Icons } from "~assets";
+import { Image, Text, View } from "react-native";
+import { AppColors } from "~utils";
+import { height, width } from "~utils/dimensions";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-<Tab.Navigator
-  screenOptions={({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {
-      let iconName;
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          console.log("/////", route.name);
 
-      if (route.name === ScreenNames.HOMESCREEN) {
-        iconName = focused
-          ? ScreenNames.HOMESCREEN
-          : "ios-information-circle-outline";
-      } else if (route.name === ScreenNames.DATESCREEN) {
-        iconName = true ? ScreenNames.DATESCREEN : "ios-list";
-      } else if (route.name === ScreenNames.ORDERSCREEN) {
-        iconName = true ? ScreenNames.ORDERSCREEN : "ios-list";
-      } else if (route.name === ScreenNames.PROFILESCREEN) {
-        iconName = true ? ScreenNames.PROFILESCREEN : "ios-list";
-      } else {
-        iconName = "help-circle-outline";
-      }
-      return <MaterialIcons name={iconName} size={size} color={color} />;
-    },
-    tabBarActiveTintColor: "red",
-    tabBarInactiveTintColor: "gray",
-  })}
->
-  <Tab.Screen name={ScreenNames.HOMESCREEN} component={HomeScreen} />
-  <Tab.Screen name={ScreenNames.DATESCREEN} component={DateScreen} />
-  <Tab.Screen name={ScreenNames.ORDERSCREEN} component={OrderScreen} />
-  <Tab.Screen name={ScreenNames.PROFILESCREEN} component={ProfileScreen} />
-</Tab.Navigator>;
+          let icon;
+          if (route.name === ScreenNames.HOMESCREEN) {
+            icon = focused ? Icons.tabChuckLogo : Icons.tabChuckLogo;
+          } else if (route.name === ScreenNames.DATESCREEN) {
+            icon = focused ? Icons.dateIcon : Icons.dateIcon;
+          } else if (route.name === ScreenNames.ORDERSCREEN) {
+            icon = focused ? Icons.orderIcon : Icons.orderIcon;
+          } else if (route.name === ScreenNames.PROFILESCREEN) {
+            icon = focused ? Icons.profileIcon : Icons.profileIcon;
+          } else {
+            icon = Icons.develo;
+          }
+          return (
+            <View
+              style={{
+                width: width(14),
+                height: height(4.8),
+                alignItems: "center",
+                justifyContent: "center",
+                borderTopWidth: focused ? 2 : 0,
+                borderTopColor: focused
+                  ? AppColors.solidGreen
+                  : AppColors.black,
+                opacity: focused ? 2 : 0.5,
+              }}
+            >
+              <Image source={icon} style={{ width: size, height: size }} />
+            </View>
+          );
+        },
+        tabBarStyle: {
+          height: height(8),
+          paddingBottom: height(1.8),
+        },
+        tabBarActiveTintColor: AppColors.fullBlack,
+        tabBarInactiveTintColor: AppColors.lightGrey,
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen
+        name={ScreenNames.HOMESCREEN}
+        component={HomeScreen}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                color: focused ? AppColors.fullBlack : AppColors.lightGrey,
+                fontSize: width(1.9),
+                fontFamily: focused ? FontFamily.Roboto_Bold : "normal",
+              }}
+            >
+              Dashboard
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={ScreenNames.DATESCREEN}
+        component={DateScreen}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                color: focused ? AppColors.fullBlack : AppColors.lightGrey,
+                fontSize: width(1.9),
+                fontFamily: focused ? FontFamily.Roboto_Bold : "normal",
+              }}
+            >
+              Schedule
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={ScreenNames.ORDERSCREEN}
+        component={OrderScreen}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                color: focused ? AppColors.fullBlack : AppColors.lightGrey,
+                fontSize: width(1.9),
+                fontFamily: focused ? FontFamily.Roboto_Bold : "normal",
+              }}
+            >
+              Orders
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={ScreenNames.PROFILESCREEN}
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                color: focused ? AppColors.fullBlack : AppColors.lightGrey,
+                fontSize: width(1.9),
+                fontFamily: focused ? FontFamily.Roboto_Bold : "normal",
+              }}
+            >
+              account
+            </Text>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default function Routes() {
   const isLogin = useSelector(selectIsLoggedIn);
@@ -107,12 +204,9 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Loader />
-      {!isLogin ? (
-        <Stack.Navigator
-          initialRouteName={ScreenNames.HOMESCREEN}
-          screenOptions={{ header: () => false }}
-        >
-          <Stack.Screen name={ScreenNames.HOMESCREEN} component={HomeScreen} />
+      {isLogin ? (
+        <Stack.Navigator initialRouteName={ScreenNames.HOMESCREEN}>
+          screenOptions={{ headerShown: false }}
           <Stack.Screen
             name={ScreenNames.GETTINGSTARTED}
             component={GettingStarted}
@@ -167,16 +261,16 @@ export default function Routes() {
             component={SelectRadius}
           />
           <Stack.Screen name={ScreenNames.PDFFORM} component={PdfForm} />
-
           <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator
-          initialRouteName={ScreenNames.HOME}
-          screenOptions={{ header: () => false }}
-        >
-          <Stack.Screen name={ScreenNames.HOME} component={HomeScreen} />
-        </Stack.Navigator>
+        // <Stack.Navigator
+        //   initialRouteName={ScreenNames.HOME}
+        //   screenOptions={{ header: () => false }}
+        // >
+        //   <Stack.Screen name={ScreenNames.HOME} component={HomeScreen} />
+        // </Stack.Navigator>
+        TabNavigator()
       )}
     </NavigationContainer>
   );

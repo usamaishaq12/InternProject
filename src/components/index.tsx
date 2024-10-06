@@ -20,3 +20,4 @@ export { default as ImageAvatar } from "./image-avatar";
 export { default as DeletePickerModal } from "./Delete-picker-modal";
 export { default as SelectZipCode } from "./select-zipcode";
 export { default as ZipCodeModal } from "./zipcode-modal";
+export { default as TabColor } from "./tab-color";

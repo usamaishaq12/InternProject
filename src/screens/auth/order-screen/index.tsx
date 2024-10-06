@@ -1,4 +1,4 @@
-import React, { Children, useRef, useState } from "react";
+import React, { Children, useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import { Button, CustomHeader, ScreenWrapper } from "~components";
 
@@ -12,12 +12,22 @@ import { BackArrow } from "~assets/SVG";
 import styles from "./styles";
 import { ZipCode } from "~components/zipcode-modal";
 
-export default function OrderScreen({ navigation }) {
+export default function OrderScreen({ navigation }: any) {
+  useEffect(() => {
+    const handleTabPress = () => {
+      console.log("Current Route: HomeScreen");
+    };
+
+    const unsubscribe = navigation.addListener("tabPress", handleTabPress);
+
+    return unsubscribe; // Cleanup the listener on unmount
+  }, [navigation]);
+
   return (
     <ScreenWrapper>
       <CustomHeader
         backIcon={<BackArrow />}
-        title="Select Radius"
+        title="Orders"
         onBackPress={() => navigation.goBack(ScreenNames.PDFFORM)}
       />
       {/* <View style={styles.container}>
