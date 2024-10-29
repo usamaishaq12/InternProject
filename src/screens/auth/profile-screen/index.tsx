@@ -1,36 +1,96 @@
 import React, { Children, useRef, useState } from "react";
-import { FlatList, View } from "react-native";
-import { Button, CustomHeader, ScreenWrapper } from "~components";
+import { FlatList, StyleProp, View, ViewStyle } from "react-native";
+import {
+  Button,
+  CustomHeader,
+  ImageAvatar,
+  ScreenWrapper,
+  SwitchStatus,
+} from "~components";
 
-import { AppColors } from "~utils";
-import FilePickerModal, {
-  FilePickerModalRef,
-} from "~components/file-picker-modal";
-
-import ScreenNames from "~Routes/routes";
-import { BackArrow } from "~assets/SVG";
+import { BackArrow, SettingIcon, TickCheck, TickCheckGreen } from "~assets/SVG";
 import styles from "./styles";
-import { ZipCode } from "~components/zipcode-modal";
+import { TouchableOpacity } from "react-native";
+import { AppColors } from "~utils";
+import CustomText from "~components/text";
+import { FontFamily } from "~assets";
+import { height } from "~utils/dimensions";
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({ navigation }: any) {
+  const [enabled, setEnabled] = useState(false);
+  const toggleSwitch = () => {
+    if (!enabled) setEnabled(true);
+    else if (enabled) setEnabled(false);
+    else return;
+  };
+
+  interface MoneyViewProps {
+    money?: string;
+    text?: string;
+    moneyView?: StyleProp<ViewStyle>;
+    onPress?: () => void;
+  }
+
+  const MoneyView: React.FC<MoneyViewProps> = ({
+    money,
+    text,
+    moneyView,
+    onPress,
+  }) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={onPress}
+        style={[styles.moneyView, moneyView]}
+      >
+        <CustomText children={money} size={6.5} />
+        <CustomText children={text} size={3} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <ScreenWrapper>
-      <CustomHeader
-        backIcon={<BackArrow />}
-        title="Profile"
-        onBackPress={() => navigation.goBack(ScreenNames.PDFFORM)}
-      />
-      {/* <View style={styles.container}>
-        <View style={styles.viewContainer}>
-          <Button
-            containerStyle={styles.footerButton}
-            variant="primary"
-            buttonTextColor={AppColors.white}
-            children={"Continue"}
-            onPress={() => navigation.navigate(ScreenNames.PDFFORM)}
+      <View style={styles.mainViewContainer}>
+        <View style={styles.rowContainer}>
+          <SwitchStatus
+            online={enabled}
+            onOnlinePress={toggleSwitch}
+            onOfflinePress={toggleSwitch}
           />
-        </View> */}
-      {/* </View> */}
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.settingView}
+            onPress={() => {}}
+          >
+            <SettingIcon />
+          </TouchableOpacity>
+        </View>
+        <ImageAvatar
+          viewContainerStyle={{
+            marginTop: height(1),
+          }}
+          tick={true}
+        />
+
+        <View style={styles.ratingContainer}>
+          <CustomText
+            children={"John Doe"}
+            size={4.9}
+            fontFamily={FontFamily.Roboto_Bold}
+          />
+          <CustomText
+            children={`********* ${4.2} (7.2)`}
+            containerStyles={styles.ratingText}
+          />
+        </View>
+        <View style={styles.rowMoneyContainer}>
+          <MoneyView money="25" text="Order Recieved" />
+          <MoneyView money="25" text="Order Recieved" />
+          <MoneyView money="25" text="Order Recieved" />
+          <MoneyView money="25" text="Order Recieved" />
+        </View>
+      </View>
     </ScreenWrapper>
   );
 }

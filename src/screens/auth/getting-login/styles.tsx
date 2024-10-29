@@ -61,5 +61,9 @@ const styles = StyleSheet.create({
   textColor: {
     color: AppColors.black,
   },
+
+  errorEmailStyle: {},
+  errorPasswordStyle: {},
+  errorRememberMeStyle: {},
 });
 export default styles;

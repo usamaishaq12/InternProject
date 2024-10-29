@@ -12,3 +12,8 @@ export { default as Pin } from "./pin";
 export { default as Chat } from "./chat";
 export { default as Notification } from "./notification";
 export { default as RightArrow } from "./rightArrow";
+export { default as HeaderBackArrow } from "./headerBackArrow";
+export { default as HeaderForwardArrow } from "./headerForwardArrow";
+export { default as DateIcon } from "./dateIcon";
+export { default as SettingIcon } from "./settingIcon";
+export { default as TickCheckGreen } from "./tickCheckGreen";

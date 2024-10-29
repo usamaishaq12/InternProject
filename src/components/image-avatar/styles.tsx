@@ -17,6 +17,17 @@ const styles = StyleSheet.create({
     height: width(33),
     borderRadius: width(19),
   },
+  tickCircle: {
+    alignItems: "center",
+    backgroundColor: AppColors.white,
+    height: height(2),
+    width: width(3),
+    borderRadius: width(4),
+    position: "absolute",
+    zIndex: 1,
+    right: width(2),
+    top: height(4),
+  },
 });
 
 export default styles;

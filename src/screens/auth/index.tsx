@@ -16,3 +16,5 @@ export { default as HomeScreen } from "./home-screen";
 export { default as DateScreen } from "./date-screen";
 export { default as OrderScreen } from "./order-screen";
 export { default as ProfileScreen } from "./profile-screen";
+export { default as ServiceOrderRequests } from "./service-order-requests";
+export { default as TabScreen } from "./tab-screen";

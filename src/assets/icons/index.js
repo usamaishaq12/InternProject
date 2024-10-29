@@ -8,5 +8,6 @@ const Icons = {
   orderIcon: require("./orderIcon.png"),
   profileIcon: require("./profileIcon.png"),
   tabChuckLogo: require("./tabChuckLogo.png"),
+  truck: require("./truck.png"),
 };
 export default Icons;

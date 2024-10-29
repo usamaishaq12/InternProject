@@ -12,7 +12,7 @@ import styles from "./styles";
 import auth from "@react-native-firebase/auth";
 // import { InputProps } from "~types";
 import { AppColors } from "~utils";
-import { useForm } from "react-hook-form";
+
 import { OpenEye, TickCheck } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import GlobalMethods from "~utils/method";
@@ -20,20 +20,36 @@ import GlobalMethods from "~utils/method";
 import { selectUserMeta, setIsLoggedIn, setUserMeta } from "~redux/slices/user";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
+import loginValidationSchema from "~utils/ValidationSchema";
 export default function GettingLogin({ navigation }) {
   const [email, setChangeEmail] = useState("");
   const [password, setChangePassword] = useState("");
   const [check, setCheck] = useState(false);
   const [loader, setLoader] = useState(false);
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(loginValidationSchema) });
   const user = useSelector(selectUserMeta);
   const dispatch = useDispatch();
   const handleCheck = () => {
     setCheck(!check);
   };
-
-  function handleSubmit() {
+  // interface LoginFormData {
+  //   email: string;
+  //   password: string;
+  //   rememberMe?: boolean;
+  // }
+  const onSubmit = () => {
+    const data = { email, password };
+    console.log(data, ">>>>>>>");
+    loginAccount();
+  };
+  function handleSubmitted() {
     navigation.navigate(ScreenNames.CREATEACCOUNT);
   }
   const getDataFromFire = async (uid: string) => {
@@ -106,60 +122,91 @@ export default function GettingLogin({ navigation }) {
           <Image source={Icons.chuck} style={styles.chuckImage} />
           <Text style={styles.text}>Log in to your account</Text>
         </View>
-        <InputText
-          mainViewContainer={styles.inputViewContainer}
-          label="Email"
-          placeholder="Enter here"
-          value={email}
-          autoCapitalize={"none"}
-          onChangeText={(text: string) => {
-            setChangeEmail(text);
-          }}
-          maxLength={40}
-          numberOfLines={1}
-          secureTextEntry={false}
-          keyboardType="email-address"
-          placeholderTextColor={AppColors.lightGrey}
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <InputText
+              mainViewContainer={styles.inputViewContainer}
+              label="Email"
+              placeholder="Enter here"
+              value={email}
+              autoCapitalize={"none"}
+              onChangeText={(text: string) => {
+                setChangeEmail(text);
+              }}
+              maxLength={40}
+              numberOfLines={1}
+              secureTextEntry={false}
+              keyboardType="email-address"
+              placeholderTextColor={AppColors.lightGrey}
+            />
+          )}
         />
-        <InputText
-          label="Password"
-          placeholder="Enter Password"
-          value={password}
-          autoCapitalize={"none"}
-          onChangeText={(value: string) => {
-            setChangePassword(value);
-          }}
-          maxLength={40}
-          secureTextEntry={false}
-          numberOfLines={1}
-          keyboardType="name-phone-pad"
-          placeholderTextColor={AppColors.lightGrey}
-          icon={() => <OpenEye />}
+        {errors.email && (
+          <Text style={styles.errorEmailStyle}>{errors.email.message}</Text>
+        )}
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <InputText
+              label="Password"
+              placeholder="Enter Password"
+              value={password}
+              autoCapitalize={"none"}
+              onChangeText={(value: string) => {
+                setChangePassword(value);
+              }}
+              maxLength={40}
+              secureTextEntry={false}
+              numberOfLines={1}
+              keyboardType="name-phone-pad"
+              placeholderTextColor={AppColors.lightGrey}
+              icon={() => <OpenEye />}
+            />
+          )}
         />
-
-        <View style={styles.rowContainer}>
-          <CustomCheckBox
-            upperIcon
-            lowerIcon
-            check={check}
-            textStyleP={styles.checkBoxStyle}
-            onPress={handleCheck}
-          />
-          <TouchableOpacity>
-            <Text style={styles.text2}>Remember me</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate(ScreenNames.RESETPASSWORD)}
-          >
-            <Text style={styles.text3}>{`Forgot Password?`}</Text>
-          </TouchableOpacity>
-        </View>
+        {errors.password && (
+          <Text style={styles.errorPasswordStyle}>
+            {errors.password.message}
+          </Text>
+        )}
+        <Controller
+          name="rememberMe"
+          control={control}
+          render={({ field }) => (
+            <View style={styles.rowContainer}>
+              <CustomCheckBox
+                upperIcon
+                lowerIcon
+                check={check}
+                textStyleP={styles.checkBoxStyle}
+                onPress={handleCheck}
+              />
+              <TouchableOpacity>
+                <Text style={styles.text2}>Remember me</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(ScreenNames.RESETPASSWORD)}
+              >
+                <Text style={styles.text3}>{`Forgot Password?`}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+        {errors && (
+          <Text style={styles.errorRememberMeStyle}>
+            {errors.rememberMe?.message}
+          </Text>
+        )}
         <View style={styles.loginButtonContainer}>
           <Button
             loader={loader}
             variant="primary"
             onPress={() => {
-              validation();
+              // validation();
+              handleSubmit(onSubmit);
             }}
           >
             Log In
@@ -170,7 +217,7 @@ export default function GettingLogin({ navigation }) {
           <Button
             containerStyle={{ backgroundColor: AppColors.white }}
             onPress={() => {
-              handleSubmit();
+              handleSubmitted();
             }}
             variant="secondary"
             textStyle={styles.textColor}

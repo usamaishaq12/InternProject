@@ -4,10 +4,13 @@ import { AppColors } from "~utils";
 import { height, width } from "~utils/dimensions";
 
 const styles = StyleSheet.create({
-  calendar: {
-    marginTop: height(2),
+  container: {
+    flex: 1,
+    backgroundColor: AppColors.white,
+    alignItems: "center",
+    width: width(100),
   },
-  mainViewContainer: { flex: 1, backgroundColor: AppColors.white },
+  mainViewContainer: { marginTop: height(2) },
 });
 
 export default styles;

@@ -19,5 +19,7 @@ const ScreenNames = {
   ORDERSCREEN: "OrderScreen",
   PROFILESCREEN: "ProfileScreen",
   DATESCREEN: "DateScreen",
+  SERVICEORDERREQUESTS: "ServiceOrderRequests",
+  TABSCREEN: "TabScreen",
 };
 export default ScreenNames;

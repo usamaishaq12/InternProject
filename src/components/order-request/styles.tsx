@@ -42,6 +42,16 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.Roboto_Regular,
     marginLeft: width(1),
   },
+  declineButtonText: { color: AppColors.red },
+  acceptButtonText: { color: AppColors.solidGreen },
+  declineButtonContainer: {
+    marginVertical: height(2),
+    backgroundColor: AppColors.lightRed,
+  },
+  acceptButtonContainer: {
+    marginVertical: height(2),
+    backgroundColor: AppColors.lightGreen,
+  },
   rowContainer: {
     flexDirection: "row",
     borderRadius: width(4),

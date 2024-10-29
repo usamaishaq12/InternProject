@@ -11,7 +11,7 @@ import { AppColors } from "~utils";
 import { width } from "~utils/dimensions";
 
 interface TextProps {
-  children: ReactNode;
+  children?: ReactNode;
   size?: number;
   textAlign?: "auto" | "left" | "right" | "center" | "justify";
   color?: string;

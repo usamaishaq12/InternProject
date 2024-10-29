@@ -10,6 +10,7 @@ import {
 import React, { FC } from "react";
 import styles from "./styles";
 import CameraIcon from "~assets/SVG/cameraIcon";
+import { TickCheckGreen } from "~assets/SVG";
 
 interface ImageAvatarProps {
   onPress?: () => void;
@@ -22,6 +23,7 @@ interface ImageAvatarProps {
   showEdit?: boolean;
   iconStyle?: ViewStyle;
   color?: "black" | "white";
+  tick?: boolean;
 }
 
 const ImageAvatar: React.FC<ImageAvatarProps> = ({
@@ -32,9 +34,16 @@ const ImageAvatar: React.FC<ImageAvatarProps> = ({
   source,
   iconStyle,
   color,
+  tick,
 }) => {
   return (
     <View style={[styles.mainContainer, viewContainerStyle]}>
+      {tick && (
+        <View style={styles.tickCircle}>
+          <TickCheckGreen />
+        </View>
+      )}
+
       <TouchableOpacity
         activeOpacity={0.8}
         style={[styles.cameraContainer, cameraContainerStyle]}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useNavigationState } from "@react-navigation/native";
+
 import { useDispatch, useSelector } from "react-redux";
 import ScreenNames from "./routes";
 
@@ -29,6 +29,7 @@ import {
   OrderScreen,
   HomeScreen,
   DateScreen,
+  ServiceOrderRequests,
 } from "~screens/auth";
 import { Loader, TabColor } from "~components";
 
@@ -49,8 +50,6 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          console.log("/////", route.name);
-
           let icon;
           if (route.name === ScreenNames.HOMESCREEN) {
             icon = focused ? Icons.tabChuckLogo : Icons.tabChuckLogo;
@@ -107,10 +106,12 @@ const TabNavigator = () => {
           ),
         }}
       />
+
       <Tab.Screen
         name={ScreenNames.DATESCREEN}
         component={DateScreen}
         options={{
+          unmountOnBlur: true,
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
@@ -164,6 +165,7 @@ const TabNavigator = () => {
 
 export default function Routes() {
   const isLogin = useSelector(selectIsLoggedIn);
+  console.log(isLogin, ">>>>");
   const dispatch = useDispatch();
 
   function onAuthStateChanged(user) {
@@ -204,9 +206,11 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Loader />
-      {isLogin ? (
-        <Stack.Navigator initialRouteName={ScreenNames.HOMESCREEN}>
+      {!isLogin ? (
+        <Stack.Navigator
           screenOptions={{ headerShown: false }}
+          initialRouteName={ScreenNames.GETTINGSTARTED}
+        >
           <Stack.Screen
             name={ScreenNames.GETTINGSTARTED}
             component={GettingStarted}
@@ -218,7 +222,6 @@ export default function Routes() {
           <Stack.Screen
             name={ScreenNames.RESETPASSWORD}
             component={ResetPassword}
-            options={{}}
           />
           <Stack.Screen
             name={ScreenNames.CREATEACCOUNT}
@@ -264,13 +267,13 @@ export default function Routes() {
           <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
         </Stack.Navigator>
       ) : (
-        // <Stack.Navigator
-        //   initialRouteName={ScreenNames.HOME}
-        //   screenOptions={{ header: () => false }}
-        // >
-        //   <Stack.Screen name={ScreenNames.HOME} component={HomeScreen} />
-        // </Stack.Navigator>
-        TabNavigator()
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Tab" component={TabNavigator} />
+          <Stack.Screen
+            name={ScreenNames.SERVICEORDERREQUESTS}
+            component={ServiceOrderRequests}
+          />
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );
