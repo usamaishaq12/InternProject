@@ -34,21 +34,21 @@ export default function GettingLogin({ navigation }) {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginValidationSchema) });
+
   const user = useSelector(selectUserMeta);
   const dispatch = useDispatch();
   const handleCheck = () => {
     setCheck(!check);
   };
-  // interface LoginFormData {
-  //   email: string;
-  //   password: string;
-  //   rememberMe?: boolean;
-  // }
-  const onSubmit = () => {
-    const data = { email, password };
+  interface LoginFormData {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+  }
+  const onSubmit = (data: LoginFormData) => {
     console.log(data, ">>>>>>>");
-    loginAccount();
   };
+
   function handleSubmitted() {
     navigation.navigate(ScreenNames.CREATEACCOUNT);
   }
@@ -149,7 +149,7 @@ export default function GettingLogin({ navigation }) {
         <Controller
           name="password"
           control={control}
-          render={({ field }) => (
+          render={({ field: { value, onBlur, onChange } }) => (
             <InputText
               label="Password"
               placeholder="Enter Password"
@@ -204,10 +204,7 @@ export default function GettingLogin({ navigation }) {
           <Button
             loader={loader}
             variant="primary"
-            onPress={() => {
-              // validation();
-              handleSubmit(onSubmit);
-            }}
+            onPress={handleSubmit(onSubmit)}
           >
             Log In
           </Button>
