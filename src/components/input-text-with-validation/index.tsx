@@ -20,7 +20,7 @@ interface errorProps {
 export interface InputTextWithValidationProps {
   // errors?: FieldErrors<FieldValues>;
   control?: Control<FieldValues>;
-  error?: errorProps | null;
+  error: errorProps | null;
   name: string;
   placeholder: string;
   props?: TextInputProps;
@@ -57,38 +57,43 @@ const InputTextWithValidation: React.FC<InputTextWithValidationProps> = ({
   // keyboardType,
   props,
 }) => (
-  <View style={[styles.mainViewContainer, mainViewContainer]}>
-    <View style={[styles.viewContainer, textStyleView]}>
-      <SmallText size={3} textStyles={styles.labelText}>
-        {label}
-      </SmallText>
+  <View>
+    <View style={[styles.mainViewContainer, mainViewContainer]}>
+      <View style={[styles.viewContainer, textStyleView]}>
+        <SmallText size={3} textStyles={styles.labelText}>
+          {label}
+        </SmallText>
 
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <>
-            <TextInput
-              style={[icon() ? styles.textInput1 : styles.textInput, textStyle]}
-              placeholder={placeholder}
-              // placeholderTextColor={placeholderTextColor}
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              secureTextEntry={secureTextEntry}
-              {...props}
-              // pointerEvents={"none"}
-              // maxLength={maxLength}
-              // numberOfLines={numberOfLines}
-              // autoFocus={autoFocus}
-              // keyboardType={keyboardType}
-            />
-          </>
-        )}
-      />
+        <Controller
+          name={name}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <>
+              <TextInput
+                style={[
+                  icon() ? styles.textInput1 : styles.textInput,
+                  textStyle,
+                ]}
+                placeholder={placeholder}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                secureTextEntry={secureTextEntry}
+                {...props}
+                // placeholderTextColor={placeholderTextColor}
+                // pointerEvents={"none"}
+                // maxLength={maxLength}
+                // numberOfLines={numberOfLines}
+                // autoFocus={autoFocus}
+                // keyboardType={keyboardType}
+              />
+            </>
+          )}
+        />
+      </View>
+      <View style={[styles.iconContainer, iconContainer]}>{icon()}</View>
     </View>
-    <View style={[styles.iconContainer, iconContainer]}>{icon()}</View>
-    {/* {error && <Text style={styles.error}>{error?.message}</Text>} */}
+    {error && <Text style={styles.error}>{error?.message}</Text>}
   </View>
 );
 

@@ -35,7 +35,10 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   error: {
-    color: AppColors.red,
+    position: "absolute",
+    bottom: -2,
+    color: AppColors.solidRed,
+    fontSize: 11.5,
   },
 });
 export default styles;

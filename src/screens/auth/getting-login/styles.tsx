@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Bold",
     color: AppColors.black,
   },
-  inputViewContainer: { marginVertical: height(2), backgroundColor: "red" },
+  inputViewContainer: { marginVertical: height(2) },
   rowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     color: AppColors.black,
   },
 
-  errorEmailStyle: { fontSize: 10, color: "red" },
-  errorPasswordStyle: { fontSize: 10, color: "red" },
+  errorEmailStyle: { fontSize: 10, color: "red", backgroundColor: "yellow" },
+  errorPasswordStyle: { fontSize: 10, color: "red", backgroundColor: "yellow" },
   errorRememberMeStyle: { fontSize: 10, color: "red" },
 });
 export default styles;

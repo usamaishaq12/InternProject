@@ -41,12 +41,15 @@ export default function GettingLogin({ navigation }) {
   const handleCheck = () => {
     setCheck(!check);
   };
-  interface LoginFormData {
-    email: string;
-    password: string;
-    rememberMe?: boolean;
-  }
-  const onSubmit = (data: LoginFormData) => {
+  // interface LoginFormData {
+  //   email: string;
+  //   password: string;
+  //   rememberMe?: boolean;
+  // }
+  // const onSubmit = (data: LoginFormData) => {
+  //   console.log(data, ">>>>>>>");
+  // };
+  const onSubmit = (data: any) => {
     console.log(data, ">>>>>>>");
   };
 
@@ -123,64 +126,24 @@ export default function GettingLogin({ navigation }) {
           <Image source={Icons.chuck} style={styles.chuckImage} />
           <Text style={styles.text}>Log in to your account</Text>
         </View>
-        {/* <InputTextWithValidation
+        <InputTextWithValidation
+          mainViewContainer={styles.inputViewContainer}
           control={control}
           name="email"
           placeholder="Enter email"
           label="Email"
           secureTextEntry={false}
-        /> */}
-        {/* <Controller
-          name="email"
-          control={control}
-          render={({ field }) => (
-            <InputText
-              mainViewContainer={styles.inputViewContainer}
-              label="Email"
-              placeholder="Enter here"
-              value={email}
-              autoCapitalize={"none"}
-              onChangeText={(text: string) => {
-                setChangeEmail(text);
-              }}
-              maxLength={40}
-              numberOfLines={1}
-              secureTextEntry={false}
-              keyboardType="email-address"
-              placeholderTextColor={AppColors.lightGrey}
-            />
-          )}
+          error={errors.email}
         />
-        {errors.email && (
-          <Text style={styles.errorEmailStyle}>{errors.email.message}</Text>
-        )}
-        <Controller
+        <InputTextWithValidation
+          mainViewContainer={styles.inputViewContainer}
+          control={control}
           name="password"
-          control={control}
-          render={({ field: { value, onBlur, onChange } }) => (
-            <InputText
-              label="Password"
-              placeholder="Enter Password"
-              value={password}
-              autoCapitalize={"none"}
-              onChangeText={(value: string) => {
-                setChangePassword(value);
-              }}
-              maxLength={40}
-              secureTextEntry={false}
-              numberOfLines={1}
-              keyboardType="name-phone-pad"
-              placeholderTextColor={AppColors.lightGrey}
-              icon={() => <OpenEye />}
-            />
-          )}
+          placeholder="Enter password here"
+          label="Password"
+          secureTextEntry
+          error={errors.password}
         />
-        {errors.password && (
-          <Text style={styles.errorPasswordStyle}>
-            {errors.password.message}
-          </Text>
-        )} */}
-
         <View style={styles.rowContainer}>
           <CustomCheckBox
             upperIcon
