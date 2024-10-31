@@ -1,5 +1,6 @@
 export { default as EditPen } from "./editPen";
 export { default as OpenEye } from "./openEye";
+export { default as CloseEye } from "./CloseEye";
 export { default as BackArrow } from "./backArrow";
 export { default as TickCircle } from "./tickCircle";
 export { default as DropMenu } from "./dropMenu";

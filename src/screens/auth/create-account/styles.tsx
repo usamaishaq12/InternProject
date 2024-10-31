@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: height(3),
   },
-
+  inputViewContainer: { marginVertical: height(2) },
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",

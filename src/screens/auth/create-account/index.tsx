@@ -7,6 +7,7 @@ import {
   CustomHeader,
   CustomModal,
   InputText,
+  InputTextWithValidation,
   LargeText,
   ScreenWrapper,
   SmallText,
@@ -22,6 +23,9 @@ import { number } from "yup";
 import GlobalMethods from "~utils/method";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserMeta, setUserMeta } from "~redux/slices/user";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SignUpValidationSchema } from "~utils/ValidationSchema";
 
 export default function CreateAccount({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,6 +34,12 @@ export default function CreateAccount({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [check, setCheck] = useState(false);
   const [loader, setLoader] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(SignUpValidationSchema) });
 
   const dispatch = useDispatch();
 
@@ -88,6 +98,14 @@ export default function CreateAccount({ navigation }) {
         setLoader(false);
       });
   };
+
+  // const submit = (data: any) => {
+  //   console.log(data);
+  // };
+  function submit(data: any) {
+    console.log(data);
+  }
+
   function handleSubmitted() {
     const body = {
       email: email,
@@ -108,7 +126,36 @@ export default function CreateAccount({ navigation }) {
       />
       <View style={styles.viewContainer}>
         <View style={styles.mainViewContainer}>
-          <InputText
+          <InputTextWithValidation
+            mainViewContainer={styles.inputViewContainer}
+            control={control}
+            name="email"
+            placeholder="Enter email"
+            label="Email"
+            secureTextEntry={false}
+            error={errors.email}
+          />
+          <InputTextWithValidation
+            icon
+            mainViewContainer={styles.inputViewContainer}
+            control={control}
+            name="password"
+            placeholder="Enter password here"
+            label="Password"
+            secureTextEntry
+            error={errors.password}
+          />
+          <InputTextWithValidation
+            icon
+            mainViewContainer={styles.inputViewContainer}
+            control={control}
+            name="confirmPassword"
+            placeholder="*********"
+            label=" Confirm Password"
+            secureTextEntry
+            error={errors.confirmPassword}
+          />
+          {/* <InputText
             mainViewContainer={styles.inputContainer}
             label="Email"
             placeholder="Enter here"
@@ -154,7 +201,7 @@ export default function CreateAccount({ navigation }) {
             numberOfLines={2}
             placeholderTextColor={AppColors.lightGrey}
             icon={() => <OpenEye />}
-          />
+          /> */}
         </View>
         <View style={styles.rowContainer}>
           <CustomCheckBox
@@ -184,9 +231,7 @@ export default function CreateAccount({ navigation }) {
         <Button
           loader={loader}
           variant="primary"
-          onPress={() => {
-            validation();
-          }}
+          onPress={handleSubmit(submit)}
         >
           Register
         </Button>

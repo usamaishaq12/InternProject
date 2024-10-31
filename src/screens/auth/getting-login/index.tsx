@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Image, Text, View, TouchableOpacity, Alert } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+} from "react-native";
 import { Icons } from "~assets";
 import {
   Button,
@@ -14,7 +21,7 @@ import auth from "@react-native-firebase/auth";
 // import { InputProps } from "~types";
 import { AppColors } from "~utils";
 
-import { OpenEye, TickCheck } from "~assets/SVG";
+import { CloseEye, OpenEye, TickCheck } from "~assets/SVG";
 import ScreenNames from "~Routes/routes";
 import GlobalMethods from "~utils/method";
 
@@ -23,12 +30,13 @@ import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
-import loginValidationSchema from "~utils/ValidationSchema";
+import { loginValidationSchema } from "~utils/ValidationSchema";
 export default function GettingLogin({ navigation }) {
   const [email, setChangeEmail] = useState("");
   const [password, setChangePassword] = useState("");
   const [check, setCheck] = useState(false);
   const [loader, setLoader] = useState(false);
+  const passRef = useRef<TextInput>(null);
 
   const {
     control,
@@ -133,16 +141,23 @@ export default function GettingLogin({ navigation }) {
           placeholder="Enter email"
           label="Email"
           secureTextEntry={false}
+          props={{
+            onSubmitEditing: () => passRef.current?.focus(),
+          }}
           error={errors.email}
         />
         <InputTextWithValidation
+          // icon={visible ? <CloseEye /> : <OpenEye />}
+          icon
           mainViewContainer={styles.inputViewContainer}
           control={control}
           name="password"
+          ref={passRef}
           placeholder="Enter password here"
           label="Password"
           secureTextEntry
           error={errors.password}
+          // onIconPress={() => setVisible(!visible)}
         />
         <View style={styles.rowContainer}>
           <CustomCheckBox
