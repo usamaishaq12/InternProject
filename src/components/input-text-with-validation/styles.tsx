@@ -34,5 +34,8 @@ const styles = StyleSheet.create({
     height: height(4.5),
     paddingVertical: 0,
   },
+  error: {
+    color: AppColors.red,
+  },
 });
 export default styles;

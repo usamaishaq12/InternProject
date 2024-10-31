@@ -5,6 +5,7 @@ import {
   Button,
   CustomCheckBox,
   InputText,
+  InputTextWithValidation,
   ScreenWrapper,
   SmallText,
 } from "~components";
@@ -122,7 +123,14 @@ export default function GettingLogin({ navigation }) {
           <Image source={Icons.chuck} style={styles.chuckImage} />
           <Text style={styles.text}>Log in to your account</Text>
         </View>
-        <Controller
+        {/* <InputTextWithValidation
+          control={control}
+          name="email"
+          placeholder="Enter email"
+          label="Email"
+          secureTextEntry={false}
+        /> */}
+        {/* <Controller
           name="email"
           control={control}
           render={({ field }) => (
@@ -171,35 +179,26 @@ export default function GettingLogin({ navigation }) {
           <Text style={styles.errorPasswordStyle}>
             {errors.password.message}
           </Text>
-        )}
-        <Controller
-          name="rememberMe"
-          control={control}
-          render={({ field }) => (
-            <View style={styles.rowContainer}>
-              <CustomCheckBox
-                upperIcon
-                lowerIcon
-                check={check}
-                textStyleP={styles.checkBoxStyle}
-                onPress={handleCheck}
-              />
-              <TouchableOpacity>
-                <Text style={styles.text2}>Remember me</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigation.navigate(ScreenNames.RESETPASSWORD)}
-              >
-                <Text style={styles.text3}>{`Forgot Password?`}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-        {errors && (
-          <Text style={styles.errorRememberMeStyle}>
-            {errors.rememberMe?.message}
-          </Text>
-        )}
+        )} */}
+
+        <View style={styles.rowContainer}>
+          <CustomCheckBox
+            upperIcon
+            lowerIcon
+            check={check}
+            textStyleP={styles.checkBoxStyle}
+            onPress={handleCheck}
+          />
+          <TouchableOpacity>
+            <Text style={styles.text2}>Remember me</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ScreenNames.RESETPASSWORD)}
+          >
+            <Text style={styles.text3}>{`Forgot Password?`}</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.loginButtonContainer}>
           <Button
             loader={loader}

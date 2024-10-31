@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Bold",
     color: AppColors.black,
   },
-  inputViewContainer: { marginVertical: height(2) },
+  inputViewContainer: { marginVertical: height(2), backgroundColor: "red" },
   rowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

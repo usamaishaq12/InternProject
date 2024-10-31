@@ -23,3 +23,4 @@ export { default as ZipCodeModal } from "./zipcode-modal";
 export { default as TabColor } from "./tab-color";
 export { default as TabHeader } from "./tab-header";
 export { default as SwitchStatus } from "./switch-status";
+export { default as InputTextWithValidation } from "./input-text-with-validation";

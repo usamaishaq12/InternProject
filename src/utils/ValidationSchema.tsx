@@ -1,10 +1,11 @@
 import * as yup from "yup";
+
 const loginValidationSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("Email is required"),
   password: yup
     .string()
-    .min(6, "password must be atleast 6 characters")
-    .max(12, "password must be atleast 12 characters long")
+    .min(6, "Password must be at least 6 characters")
+    .max(12, "Password must be at most 12 characters")
     .required("Password is required"),
   rememberMe: yup
     .boolean()
